@@ -536,10 +536,15 @@ function doPost(e) {
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(monthName);
     
-    // Buat Sheet Baru jika belum ada
+    // ----------------------------------------------------
+    // PEMBUATAN / PEMBERSIHAN SHEET (Selalu di Paling Kanan)
+    // ----------------------------------------------------
     if (!sheet) {
-      sheet = ss.insertSheet(monthName);
+      // Buat Sheet Baru di posisi Paling Kanan (Paling Akhir Tab)
+      sheet = ss.insertSheet(monthName, ss.getSheets().length);
     } else {
+      // PENTING: Unmerge dulu semua sel lama agar Merge A1:AM1 tidak terhalang/tertahan di kolom Z
+      sheet.getRange(1, 1, 100, 39).breakApart();
       sheet.clear(); // Bersihkan isi & format lama agar rapi
     }
     
@@ -547,7 +552,7 @@ function doPost(e) {
     sheet.setHiddenGridlines(false);
     
     // ----------------------------------------------------
-    // 1. JUDUL / HEADER ATAS (Row 1 - 3)
+    // 1. JUDUL / HEADER ATAS (Row 1 - 3, Presisi Kolom 1 ke 39)
     // ----------------------------------------------------
     var totalCols = 39; // 1 (No) + 1 (Nama) + 1 (No.Induk) + 1 (NISN) + 31 (Tgl) + 4 (Rekap H,S,I,A)
     
@@ -555,12 +560,13 @@ function doPost(e) {
     sheet.getRange(2, 1).setValue("TAHUN PELAJARAN " + tapel.toUpperCase());
     sheet.getRange(3, 1).setValue("BULAN : " + monthName.toUpperCase());
     
-    sheet.getRange("A1:AM1").merge().setFontWeight("bold").setFontSize(14).setHorizontalAlignment("center");
-    sheet.getRange("A2:AM2").merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
-    sheet.getRange("A3:AM3").merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
+    // Merge presisi penuh dari Kolom 1 (A) sampai Kolom 39 (AM)
+    sheet.getRange(1, 1, 1, totalCols).merge().setFontWeight("bold").setFontSize(14).setHorizontalAlignment("center");
+    sheet.getRange(2, 1, 1, totalCols).merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
+    sheet.getRange(3, 1, 1, totalCols).merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
     
-    // Line hitam solid di bawah judul row 3
-    sheet.getRange("A3:AM3").setBorder(null, null, true, null, null, null, "#000000", SpreadsheetApp.BorderStyle.SOLID);
+    // Line hitam solid di bawah judul row 3 dari Kolom A sampai AM
+    sheet.getRange(3, 1, 1, totalCols).setBorder(null, null, true, null, null, null, "#000000", SpreadsheetApp.BorderStyle.SOLID);
 
     // ----------------------------------------------------
     // 2. INFORMASI SEKOLAH & KELAS (Row 5 - 9)
@@ -654,7 +660,7 @@ function doPost(e) {
     }
     
     // ----------------------------------------------------
-    // 5. TANDA TANGAN / SIGNATURE (Sesuai Gambar 2)
+    // 5. TANDA TANGAN / SIGNATURE
     // ----------------------------------------------------
     var startSignRow = lastRow + 3;
     var tempat = printConfig.tempat || "Surabaya";
@@ -690,12 +696,10 @@ function doPost(e) {
          .setHorizontalAlignment("center");
 
     // ----------------------------------------------------
-    // 6. STYLING FONT & UKURAN KOLOM
+    // 6. STYLING FONT & UKURAN KOLOM PRESISI
     // ----------------------------------------------------
-    // Set Font Family Seluruh Sheet
     sheet.getRange(1, 1, startSignRow + 7, totalCols).setFontFamily("Times New Roman");
     
-    // Ukuran Kolom Presisi
     sheet.setColumnWidth(1, 35);  // NO
     sheet.setColumnWidth(2, 210); // NAMA SISWA
     sheet.setColumnWidth(3, 90);  // NO INDUK
@@ -1351,7 +1355,6 @@ function doGet(e) {
         }
 
         function renderSettingsModalContent() {
-            // Populate Signature inputs in settings
             if (appData.printConfig) {
                 document.getElementById("setting-tempat").value = appData.printConfig.tempat || "Surabaya";
                 document.getElementById("setting-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || "";
@@ -1393,7 +1396,6 @@ function doGet(e) {
         }
 
         function saveSettings() {
-            // Save Signature Settings
             appData.printConfig = {
                 tempat: document.getElementById("setting-tempat").value,
                 tanggalDokumen: document.getElementById("setting-tanggal-dokumen").value,
