@@ -6,7 +6,7 @@
     <title>Presensi Siswa - SDN DUKUH MENANGGAL I/424 SURABAYA</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Plus Jakarta Sans & Nunito for cute yet elegant typography -->
+    <!-- Google Fonts: Plus Jakarta Sans & Nunito -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -40,7 +40,6 @@
     </script>
 
     <style>
-        /* Cute background pattern with soft pastel tint */
         body {
             background-color: #f8fafc;
             background-image: 
@@ -52,7 +51,6 @@
             background-opacity: 0.15;
         }
 
-        /* Custom scrollbar for matrix table */
         .custom-scrollbar::-webkit-scrollbar {
             height: 10px;
             width: 8px;
@@ -70,7 +68,6 @@
             background: #34d399;
         }
 
-        /* Responsive sticky table column widths */
         .sticky-col-no {
             position: sticky;
             left: 0;
@@ -86,7 +83,6 @@
             max-width: 180px;
         }
 
-        /* Smooth bouncy transitions for interactive buttons */
         .cute-btn {
             transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
@@ -97,14 +93,12 @@
             transform: translateY(0) scale(0.97);
         }
 
-        /* Glassmorphism card effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.92);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(226, 232, 240, 0.8);
         }
 
-        /* Print formatting optimized for A4 Landscape */
         @media print {
             body {
                 background: white !important;
@@ -136,7 +130,6 @@
 </head>
 <body class="text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-200 selection:text-brand-900">
 
-    <!-- Header App -->
     <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-lg no-print relative overflow-hidden">
         <div class="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
         <div class="absolute -bottom-10 left-1/3 w-32 h-32 bg-yellow-300/10 rounded-full blur-2xl pointer-events-none"></div>
@@ -166,27 +159,23 @@
         </div>
     </header>
 
-    <!-- Main Container -->
     <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5 sm:px-6 lg:px-8 no-print space-y-5">
         
-        <!-- Filter & Control Card -->
         <div class="glass-card rounded-2xl shadow-sm border border-emerald-100/80 p-4 sm:p-5 relative overflow-hidden">
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-300"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
                 
-                <!-- Tahun Pelajaran -->
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Tahun Pelajaran
                     </label>
                     <div class="relative">
-                        <input type="text" id="input-tapel" value="2026/2027" onchange="saveAppState()" 
+                        <input type="text" id="input-tapel" value="2026/2027" onchange="saveAppState(); autoUpdateDocDatePreview();" 
                                class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition">
                     </div>
                 </div>
 
-                <!-- Pilih Kelas -->
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-amber-400"></span> Pilih Kelas
@@ -194,7 +183,6 @@
                     <div class="flex gap-2">
                         <select id="select-kelas" onchange="changeClass()" 
                                 class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-bold text-emerald-800 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition cursor-pointer">
-                            <!-- Populated dynamically -->
                         </select>
                         <button onclick="openModal('modal-add-class')" class="cute-btn bg-emerald-600 text-white px-3.5 py-2 rounded-xl hover:bg-emerald-700 transition shadow-sm flex items-center justify-center shrink-0" title="Tambah Kelas Baru">
                             <i class="fa-solid fa-plus text-xs"></i>
@@ -202,7 +190,6 @@
                     </div>
                 </div>
 
-                <!-- Bulan & Sheet -->
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-sky-400"></span> Bulan Presensi
@@ -224,7 +211,6 @@
                     </select>
                 </div>
 
-                <!-- Input Tanggal Aktif -->
                 <div>
                     <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-pink-400"></span> Tanggal Input
@@ -233,7 +219,6 @@
                            class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition">
                 </div>
 
-                <!-- Status Apps Script Badge -->
                 <div>
                     <span class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
                         <span class="w-2 h-2 rounded-full bg-purple-400"></span> Google Sheet Sync
@@ -247,10 +232,8 @@
             </div>
         </div>
 
-        <!-- Action Buttons & Auto Fill Options -->
         <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3">
             
-            <!-- View Mode Switcher & Status Badges -->
             <div class="flex flex-wrap items-center gap-2">
                 <div class="bg-slate-200/80 p-1 rounded-2xl flex items-center shadow-inner text-xs font-bold w-full sm:w-auto">
                     <button id="btn-view-daily" onclick="setViewMode('daily')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 bg-white text-emerald-800 shadow-xs">
@@ -261,7 +244,6 @@
                     </button>
                 </div>
 
-                <!-- Status Legend Badges -->
                 <div class="hidden sm:flex items-center gap-1.5 flex-wrap bg-white/70 backdrop-blur px-3 py-1.5 rounded-2xl border border-slate-200/80 shadow-xs">
                     <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold rounded-lg border border-emerald-200">
                         • Hadir
@@ -278,7 +260,6 @@
                 </div>
             </div>
 
-            <!-- Functional Action Buttons -->
             <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
                 <button onclick="autofillPresent()" class="cute-btn px-3 py-2 bg-white hover:bg-emerald-50 text-emerald-800 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-emerald-200 shadow-sm shrink-0">
                     <i class="fa-solid fa-wand-magic-sparkles text-emerald-600"></i> Auto-Isi Hadir (•)
@@ -292,7 +273,6 @@
             </div>
         </div>
 
-        <!-- Attendance Content Card -->
         <div class="glass-card rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
             <div class="px-4 sm:px-5 py-3 border-b border-slate-100 flex flex-wrap justify-between items-center gap-2 bg-slate-50/80">
                 <div class="flex items-center gap-2">
@@ -309,23 +289,18 @@
                 </div>
             </div>
 
-            <!-- View Mode 1: Daily Mobile View -->
             <div id="view-daily-container" class="p-3 sm:p-4 space-y-2.5 max-h-[600px] overflow-y-auto custom-scrollbar bg-slate-50/40">
-                <!-- Dynamic Mobile Daily Cards populated by JavaScript -->
             </div>
 
-            <!-- View Mode 2: Matrix Table View (31 Days) -->
             <div id="view-matrix-container" class="overflow-x-auto custom-scrollbar max-h-[550px] hidden">
                 <table class="w-full text-xs text-left border-collapse">
                     <thead class="bg-slate-100/90 text-slate-700 sticky top-0 z-30 shadow-xs backdrop-blur">
                         <tr id="table-header-row">
                             <th class="py-3 px-2 border-b border-r border-slate-200/80 text-center sticky-col-no bg-slate-100">No</th>
                             <th class="py-3 px-2.5 border-b border-r border-slate-200/80 sticky-col-name bg-slate-100 shadow-xs">Nama Siswa</th>
-                            <!-- Dynamic Date Headers (1 to 31) -->
                         </tr>
                     </thead>
                     <tbody id="attendance-tbody" class="divide-y divide-slate-100 bg-white">
-                        <!-- Dynamic Student Rows -->
                     </tbody>
                 </table>
             </div>
@@ -333,7 +308,6 @@
 
     </main>
 
-    <!-- Modal: Kelola Kelas & AppScript URL -->
     <div id="modal-settings" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
@@ -346,7 +320,6 @@
             </div>
             <div class="p-6 overflow-y-auto space-y-5 flex-1 custom-scrollbar">
                 
-                <!-- Signature Data Settings Block -->
                 <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
                     <h4 class="font-extrabold text-xs text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
                         <i class="fa-solid fa-pen-nib text-emerald-600"></i> Data Tanda Tangan (Spreadsheet & Cetak)
@@ -358,8 +331,8 @@
                                    class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Dokumen (Opsional)</label>
-                            <input type="text" id="setting-tanggal-dokumen" placeholder="Misal: 30 November 2026" 
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Dokumen (Kosongkan = Otomatis)</label>
+                            <input type="text" id="setting-tanggal-dokumen" placeholder="Kosongkan agar otomatis tanggal akhir bulan" 
                                    class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
                         </div>
                         <div>
@@ -386,7 +359,6 @@
                 </div>
 
                 <div id="class-settings-container" class="space-y-4">
-                    <!-- Dynamic Class Settings List -->
                 </div>
             </div>
             <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
@@ -431,7 +403,6 @@
         </div>
     </div>
 
-    <!-- Modal: Form Cetak A4 PDF -->
     <div id="modal-print" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-100">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-rose-50/50">
@@ -451,7 +422,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Tanggal Dokumen</label>
-                        <input type="text" id="print-tanggal-dokumen" placeholder="Contoh: 30 November 2026" 
+                        <input type="text" id="print-tanggal-dokumen" placeholder="Contoh: 30 September 2026" 
                                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                     </div>
                 </div>
@@ -501,7 +472,6 @@
         </div>
     </div>
 
-    <!-- Modal: Panduan Google Apps Script -->
     <div id="modal-script-guide" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
@@ -540,19 +510,17 @@ function doPost(e) {
     // PEMBUATAN / PEMBERSIHAN SHEET (Selalu di Paling Kanan)
     // ----------------------------------------------------
     if (!sheet) {
-      // Buat Sheet Baru di posisi Paling Kanan (Paling Akhir Tab)
       sheet = ss.insertSheet(monthName, ss.getSheets().length);
     } else {
-      // PENTING: Unmerge dulu semua sel lama agar Merge A1:AM1 tidak terhalang/tertahan di kolom Z
+      // Lepas semua merge lama
       sheet.getRange(1, 1, 100, 39).breakApart();
-      sheet.clear(); // Bersihkan isi & format lama agar rapi
+      sheet.clear();
     }
     
-    // Pastikan garis kisi-kisi (gridlines) terlihat
     sheet.setHiddenGridlines(false);
     
     // ----------------------------------------------------
-    // 1. JUDUL / HEADER ATAS (Row 1 - 3, Presisi Kolom 1 ke 39)
+    // 1. JUDUL / HEADER ATAS (Merge Presisi A1:AM1)
     // ----------------------------------------------------
     var totalCols = 39; // 1 (No) + 1 (Nama) + 1 (No.Induk) + 1 (NISN) + 31 (Tgl) + 4 (Rekap H,S,I,A)
     
@@ -560,12 +528,10 @@ function doPost(e) {
     sheet.getRange(2, 1).setValue("TAHUN PELAJARAN " + tapel.toUpperCase());
     sheet.getRange(3, 1).setValue("BULAN : " + monthName.toUpperCase());
     
-    // Merge presisi penuh dari Kolom 1 (A) sampai Kolom 39 (AM)
     sheet.getRange(1, 1, 1, totalCols).merge().setFontWeight("bold").setFontSize(14).setHorizontalAlignment("center");
     sheet.getRange(2, 1, 1, totalCols).merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
     sheet.getRange(3, 1, 1, totalCols).merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
     
-    // Line hitam solid di bawah judul row 3 dari Kolom A sampai AM
     sheet.getRange(3, 1, 1, totalCols).setBorder(null, null, true, null, null, null, "#000000", SpreadsheetApp.BorderStyle.SOLID);
 
     // ----------------------------------------------------
@@ -596,14 +562,12 @@ function doPost(e) {
       sheet.getRange(12, 4 + d).setValue(d);
     }
     
-    // Rekap Headers (AJ11:AM12)
     sheet.getRange("AJ11:AM11").merge().setValue("REKAP");
     sheet.getRange("AJ12").setValue("H");
     sheet.getRange("AK12").setValue("S");
     sheet.getRange("AL12").setValue("I");
     sheet.getRange("AM12").setValue("A");
     
-    // Format Header Tabel
     var headerRange = sheet.getRange("A11:AM12");
     headerRange.setFontWeight("bold")
                .setHorizontalAlignment("center")
@@ -629,7 +593,6 @@ function doPost(e) {
         row.push(item.dates[day] || "");
       }
       
-      // Formula Rekap Otomatis H, S, I, A
       row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "•")');
       row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "S")');
       row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "I")');
@@ -641,79 +604,115 @@ function doPost(e) {
     if (rows.length > 0) {
       var dataRange = sheet.getRange(13, 1, rows.length, rows[0].length);
       dataRange.setValues(rows);
-      // Format No Induk & NISN sebagai Text (@) agar digit tidak berubah
       sheet.getRange(13, 3, rows.length, 2).setNumberFormat("@");
     }
     
     var lastRow = 12 + (rows.length > 0 ? rows.length : 1);
     var tableRange = sheet.getRange(11, 1, lastRow - 10, totalCols);
     
-    // Apply Border Hitam
     tableRange.setBorder(true, true, true, true, true, true, "#000000", SpreadsheetApp.BorderStyle.SOLID);
     
-    // Alignment Data
     if (rows.length > 0) {
       sheet.getRange(13, 1, rows.length, 1).setHorizontalAlignment("center"); // NO
-      sheet.getRange(13, 2, rows.length, 1).setHorizontalAlignment("left");   // NAMA SISWA
-      sheet.getRange(13, 3, rows.length, 2).setHorizontalAlignment("center"); // NO INDUK & NISN
-      sheet.getRange(13, 5, rows.length, 35).setHorizontalAlignment("center");// TANGGAL & REKAP
+      sheet.getRange(13, 2, rows.length, 1).setHorizontalAlignment("left");   // NAMA
+      sheet.getRange(13, 3, rows.length, 2).setHorizontalAlignment("center"); // INDUK & NISN
+      sheet.getRange(13, 5, rows.length, 35).setHorizontalAlignment("center");// TGL & REKAP
     }
     
     // ----------------------------------------------------
-    // 5. TANDA TANGAN / SIGNATURE
+    // 5. PENETAPAN TANGGAL OTOMATIS AKHIR BULAN & TAHUN
     // ----------------------------------------------------
-    var startSignRow = lastRow + 3;
+    var monthMap = {
+      "JANUARI": { num: 1, maxDay: 31, sem: 2 },
+      "FEBRUARI": { num: 2, maxDay: 28, sem: 2 },
+      "MARET": { num: 3, maxDay: 31, sem: 2 },
+      "APRIL": { num: 4, maxDay: 30, sem: 2 },
+      "MEI": { num: 5, maxDay: 31, sem: 2 },
+      "JUNI": { num: 6, maxDay: 30, sem: 2 },
+      "JULI": { num: 7, maxDay: 31, sem: 1 },
+      "AGUSTUS": { num: 8, maxDay: 31, sem: 1 },
+      "SEPTEMBER": { num: 9, maxDay: 30, sem: 1 },
+      "OKTOBER": { num: 10, maxDay: 31, sem: 1 },
+      "NOVEMBER": { num: 11, maxDay: 30, sem: 1 },
+      "DESEMBER": { num: 12, maxDay: 31, sem: 1 }
+    };
+
+    var mKey = (monthName || "").toUpperCase().trim();
+    var mInfo = monthMap[mKey] || { num: 11, maxDay: 30, sem: 1 };
+    
+    var years = (tapel || "").match(/\d{4}/g);
+    var targetYear = new Date().getFullYear();
+    if (years && years.length >= 2) {
+      targetYear = (mInfo.sem === 1) ? parseInt(years[0]) : parseInt(years[1]);
+    } else if (years && years.length === 1) {
+      targetYear = parseInt(years[0]);
+    }
+
+    var lastDay = mInfo.maxDay;
+    if (mInfo.num === 2) {
+      var isLeap = (targetYear % 4 === 0 && targetYear % 100 !== 0) || (targetYear % 400 === 0);
+      if (isLeap) lastDay = 29;
+    }
+
+    var prettyMonth = mKey.charAt(0) + mKey.slice(1).toLowerCase();
+    var autoDateStr = lastDay + " " + prettyMonth + " " + targetYear;
+
     var tempat = printConfig.tempat || "Surabaya";
-    var tglDok = printConfig.tanggalDokumen || ("30 " + monthName + " 2026");
+    var tglDok = (printConfig.tanggalDokumen && printConfig.tanggalDokumen.trim() !== "") 
+                 ? printConfig.tanggalDokumen 
+                 : autoDateStr;
+
     var ksNama = printConfig.ksNama || "";
     var ksNip = printConfig.ksNip || "";
     var guruNama = printConfig.guruNama || "";
     var guruNip = printConfig.guruNip || "";
 
+    var startSignRow = lastRow + 3;
+
     // Kiri: Kepala Sekolah
-    sheet.getRange(startSignRow, 3, 1, 2).merge().setValue("Mengetahui,").setHorizontalAlignment("center");
-    sheet.getRange(startSignRow + 1, 3, 1, 2).merge().setValue("Kepala Sekolah").setHorizontalAlignment("center");
+    sheet.getRange(startSignRow, 3, 1, 4).merge().setValue("Mengetahui,").setHorizontalAlignment("center");
+    sheet.getRange(startSignRow + 1, 3, 1, 4).merge().setValue("Kepala Sekolah").setHorizontalAlignment("center");
     
-    sheet.getRange(startSignRow + 5, 3, 1, 2).merge()
+    sheet.getRange(startSignRow + 5, 3, 1, 4).merge()
          .setValue(ksNama ? ksNama : "...................................")
          .setFontWeight("bold").setHorizontalAlignment("center");
          
-    sheet.getRange(startSignRow + 6, 3, 1, 2).merge()
+    sheet.getRange(startSignRow + 6, 3, 1, 4).merge()
          .setValue("NIP. " + (ksNip ? ksNip : "..................."))
          .setHorizontalAlignment("center");
 
-    // Kanan: Wali Kelas
+    // Kanan: Wali Kelas (Ditata rapi di kolom Z hingga AI)
     var textTanggal = tempat + ", " + tglDok;
-    sheet.getRange(startSignRow, 26, 1, 5).merge().setValue(textTanggal).setHorizontalAlignment("center");
-    sheet.getRange(startSignRow + 1, 26, 1, 5).merge().setValue("WALI KELAS").setHorizontalAlignment("center");
+    sheet.getRange(startSignRow, 26, 1, 10).merge().setValue(textTanggal).setHorizontalAlignment("center");
+    sheet.getRange(startSignRow + 1, 26, 1, 10).merge().setValue("WALI KELAS").setHorizontalAlignment("center");
     
-    sheet.getRange(startSignRow + 5, 26, 1, 5).merge()
+    sheet.getRange(startSignRow + 5, 26, 1, 10).merge()
          .setValue(guruNama ? guruNama : "...................................")
          .setFontWeight("bold").setHorizontalAlignment("center");
          
-    sheet.getRange(startSignRow + 6, 26, 1, 5).merge()
+    sheet.getRange(startSignRow + 6, 26, 1, 10).merge()
          .setValue("NIP. " + (guruNip ? guruNip : "..................."))
          .setHorizontalAlignment("center");
 
     // ----------------------------------------------------
-    // 6. STYLING FONT & UKURAN KOLOM PRESISI
+    // 6. STYLING FONT & LEBAR KOLOM
     // ----------------------------------------------------
     sheet.getRange(1, 1, startSignRow + 7, totalCols).setFontFamily("Times New Roman");
     
     sheet.setColumnWidth(1, 35);  // NO
-    sheet.setColumnWidth(2, 210); // NAMA SISWA
+    sheet.setColumnWidth(2, 210); // NAMA
     sheet.setColumnWidth(3, 90);  // NO INDUK
     sheet.setColumnWidth(4, 100); // NISN
     for (var col = 5; col <= 35; col++) {
       sheet.setColumnWidth(col, 28); // Tanggal 1-31
     }
     for (var col = 36; col <= 39; col++) {
-      sheet.setColumnWidth(col, 32); // Rekap H, S, I, A
+      sheet.setColumnWidth(col, 32); // Rekap
     }
     
     return ContentService.createTextOutput(JSON.stringify({
       status: "success", 
-      message: "Data presensi bulan " + monthName + " berhasil disimpan dengan format rapi!"
+      message: "Data presensi bulan " + monthName + " berhasil disimpan rapi!"
     })).setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
@@ -734,12 +733,11 @@ function doGet(e) {
                         <span>💡</span> Langkah Update / Deploy Apps Script:
                     </strong>
                     <ol class="list-decimal list-inside space-y-1">
-                        <li>Buka Google Spreadsheet untuk kelas terkait.</li>
+                        <li>Buka Google Spreadsheet untuk kelas Anda.</li>
                         <li>Klik <strong>Extensions</strong> &gt; <strong>Apps Script</strong>.</li>
-                        <li>Hapus semua kode lama, lalu tempel kode baru di atas. Simpan proyek (ctrl+s).</li>
-                        <li>Klik <strong>Deploy</strong> &gt; <strong>New deployment</strong> (Atau Manage deployments &gt; Edit icon &gt; New version).</li>
-                        <li>Pilih <i>Select type</i>: <strong>Web app</strong>.</li>
-                        <li>Set <i>Execute as</i>: <strong>Me</strong>, dan <i>Who has access</i>: <strong>Anyone</strong>.</li>
+                        <li>Hapus semua kode lama, lalu tempel kode baru di atas. Simpan proyek (`ctrl+s`).</li>
+                        <li>Klik <strong>Deploy</strong> &gt; <strong>New deployment</strong> (Atau Edit icon versi lama &gt; New version).</li>
+                        <li>Set <i>Who has access</i>: <strong>Anyone</strong>.</li>
                         <li>Klik <strong>Deploy</strong>, lalu salin <strong>Web App URL</strong> dan simpan di Pengaturan Kelas aplikasi ini.</li>
                     </ol>
                 </div>
@@ -750,7 +748,6 @@ function doGet(e) {
         </div>
     </div>
 
-    <!-- Printable Area (Formatted strictly for A4 Landscape) -->
     <div id="print-area" class="hidden">
         <div class="text-center mb-4 flex flex-col items-center">
             <img src="dumen.png" alt="Logo Sekolah" class="w-14 h-14 object-contain mb-2" onerror="this.style.display='none'">
@@ -760,7 +757,6 @@ function doGet(e) {
             <p class="text-xs font-semibold">KELAS: <span id="print-disp-kelas" class="uppercase">1A</span></p>
         </div>
 
-        <!-- Printable Table -->
         <table class="w-full text-[10px] border-collapse border border-slate-800 mb-6">
             <thead>
                 <tr class="bg-slate-100 text-center font-bold">
@@ -770,7 +766,6 @@ function doGet(e) {
                     <th class="border border-slate-800 py-1 px-1" colspan="4">Total</th>
                 </tr>
                 <tr class="bg-slate-50 text-center font-bold">
-                    <!-- Dates 1-31 -->
                     <script>
                         for(let i=1; i<=31; i++) {
                             document.write(`<th class="border border-slate-800 p-0.5 w-5">${i}</th>`);
@@ -783,11 +778,9 @@ function doGet(e) {
                 </tr>
             </thead>
             <tbody id="print-table-body">
-                <!-- Dynamically filled during print preview -->
             </tbody>
         </table>
 
-        <!-- Signatures Footer -->
         <div class="grid grid-cols-2 text-xs mt-8 gap-8">
             <div class="text-center">
                 <p>Mengetahui,</p>
@@ -797,7 +790,7 @@ function doGet(e) {
                 <p>NIP. <span id="print-sign-ks-nip">-------------------</span></p>
             </div>
             <div class="text-center">
-                <p><span id="print-sign-tempat">Surabaya</span>, <span id="print-sign-tgl">30 November 2026</span></p>
+                <p><span id="print-sign-tempat">Surabaya</span>, <span id="print-sign-tgl">30 September 2026</span></p>
                 <p class="font-semibold">Guru Kelas</p>
                 <div class="h-16"></div>
                 <p id="print-sign-guru-nama" class="font-bold underline">-------------------------</p>
@@ -840,16 +833,15 @@ function doGet(e) {
     </div>
 
     <script>
-        // Default Mock Data
         const DEFAULT_APP_STATE = {
             tapel: "2026/2027",
             activeClassId: "cls-1a",
-            activeMonth: "November",
+            activeMonth: "September",
             activeDate: new Date().toISOString().split('T')[0],
             viewMode: "daily",
             printConfig: {
                 tempat: "Surabaya",
-                tanggalDokumen: "30 November 2026",
+                tanggalDokumen: "",
                 guruNama: "ZAINUL FATIK, S.Pd.",
                 guruNip: "198906232023211007",
                 ksNama: "ENOK FITRIYAH, S.Pd.SD",
@@ -879,7 +871,44 @@ function doGet(e) {
         let syncDebounceTimer = null;
         let currentPickerTarget = null;
 
-        // App Initialization
+        // Helper: Format Tanggal Akhir Bulan Otomatis
+        function calcAutoDate(monthName, tapel) {
+            const monthMap = {
+                "JANUARI": { num: 1, maxDay: 31, sem: 2 },
+                "FEBRUARI": { num: 2, maxDay: 28, sem: 2 },
+                "MARET": { num: 3, maxDay: 31, sem: 2 },
+                "APRIL": { num: 4, maxDay: 30, sem: 2 },
+                "MEI": { num: 5, maxDay: 31, sem: 2 },
+                "JUNI": { num: 6, maxDay: 30, sem: 2 },
+                "JULI": { num: 7, maxDay: 31, sem: 1 },
+                "AGUSTUS": { num: 8, maxDay: 31, sem: 1 },
+                "SEPTEMBER": { num: 9, maxDay: 30, sem: 1 },
+                "OKTOBER": { num: 10, maxDay: 31, sem: 1 },
+                "NOVEMBER": { num: 11, maxDay: 30, sem: 1 },
+                "DESEMBER": { num: 12, maxDay: 31, sem: 1 }
+            };
+
+            const mKey = (monthName || "").toUpperCase().trim();
+            const mInfo = monthMap[mKey] || { num: 11, maxDay: 30, sem: 1 };
+
+            const years = (tapel || "").match(/\d{4}/g);
+            let targetYear = new Date().getFullYear();
+            if (years && years.length >= 2) {
+                targetYear = (mInfo.sem === 1) ? parseInt(years[0]) : parseInt(years[1]);
+            } else if (years && years.length === 1) {
+                targetYear = parseInt(years[0]);
+            }
+
+            let lastDay = mInfo.maxDay;
+            if (mInfo.num === 2) {
+                const isLeap = (targetYear % 4 === 0 && targetYear % 100 !== 0) || (targetYear % 400 === 0);
+                if (isLeap) lastDay = 29;
+            }
+
+            const prettyMonth = mKey.charAt(0) + mKey.slice(1).toLowerCase();
+            return `${lastDay} ${prettyMonth} ${targetYear}`;
+        }
+
         window.onload = function() {
             loadAppState();
             renderClassDropdown();
@@ -1483,9 +1512,10 @@ function doGet(e) {
         }
 
         function openPrintModal() {
+            const autoDate = calcAutoDate(appData.activeMonth, appData.tapel);
             if (appData.printConfig) {
                 document.getElementById("print-tempat").value = appData.printConfig.tempat || "Surabaya";
-                document.getElementById("print-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || `30 ${appData.activeMonth} 2026`;
+                document.getElementById("print-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || autoDate;
                 document.getElementById("print-guru-nama").value = appData.printConfig.guruNama || "";
                 document.getElementById("print-guru-nip").value = appData.printConfig.guruNip || "";
                 document.getElementById("print-ks-nama").value = appData.printConfig.ksNama || "";
@@ -1508,12 +1538,15 @@ function doGet(e) {
             };
             saveAppState();
 
+            const autoDate = calcAutoDate(appData.activeMonth, appData.tapel);
+            const finalTglDok = appData.printConfig.tanggalDokumen || autoDate;
+
             document.getElementById("print-disp-tapel").textContent = appData.tapel;
             document.getElementById("print-disp-bulan").textContent = appData.activeMonth;
             document.getElementById("print-disp-kelas").textContent = currentClass.name;
 
             document.getElementById("print-sign-tempat").textContent = appData.printConfig.tempat;
-            document.getElementById("print-sign-tgl").textContent = appData.printConfig.tanggalDokumen;
+            document.getElementById("print-sign-tgl").textContent = finalTglDok;
             
             document.getElementById("print-sign-guru-nama").textContent = appData.printConfig.guruNama || "...................................";
             document.getElementById("print-sign-guru-nip").textContent = appData.printConfig.guruNip || "...................";
