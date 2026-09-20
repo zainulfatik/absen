@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presensi Siswa - SDN DUKUH MENANGGAL I/424 SURABAYA</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Nunito for cute yet elegant typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'Nunito', 'sans-serif'],
+                        cute: ['Nunito', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#064e3b',
+                        },
+                        cuteYellow: '#fef08a',
+                        cutePink: '#fbcfe8',
+                        cuteBlue: '#bae6fd',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Cute background pattern with soft pastel tint */
+        body {
+            background-color: #f8fafc;
+            background-image: 
+                radial-gradient(#10b981 0.75px, transparent 0.75px), 
+                radial-gradient(#0284c7 0.75px, #f8fafc 0.75px);
+            background-size: 30px 30px;
+            background-position: 0 0, 15px 15px;
+            background-attachment: fixed;
+            background-opacity: 0.15;
+        }
+
+        /* Custom scrollbar for matrix table */
+        .custom-scrollbar::-webkit-scrollbar {
+            height: 10px;
+            width: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 8px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #a7f3d0;
+            border-radius: 8px;
+            border: 2px solid #f1f5f9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #34d399;
+        }
+
+        /* Responsive sticky table column widths */
+        .sticky-col-no {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            width: 38px;
+            min-width: 38px;
+        }
+        .sticky-col-name {
+            position: sticky;
+            left: 38px;
+            z-index: 20;
+            min-width: 140px;
+            max-width: 180px;
+        }
+
+        /* Smooth bouncy transitions for interactive buttons */
+        .cute-btn {
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .cute-btn:hover {
+            transform: translateY(-2px) scale(1.02);
+        }
+        .cute-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        /* Glassmorphism card effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
+
+        /* Print formatting optimized for A4 Landscape */
+        @media print {
+            body {
+                background: white !important;
+                background-image: none !important;
+            }
+            body * {
+                visibility: hidden;
+            }
+            #print-area, #print-area * {
+                visibility: visible;
+            }
+            #print-area {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                padding: 0;
+                margin: 0;
+            }
+            @page {
+                size: A4 landscape;
+                margin: 1.2cm;
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-slate-800 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-200 selection:text-brand-900">
+
+    <!-- Header App -->
+    <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-lg no-print relative overflow-hidden">
+        <!-- Cute decorative floating background circles -->
+        <div class="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
+        <div class="absolute -bottom-10 left-1/3 w-32 h-32 bg-yellow-300/10 rounded-full blur-2xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 py-3.5 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-3 relative z-10">
+            <div class="flex items-center space-x-3.5">
+                <div class="bg-white/95 p-2.5 rounded-2xl text-emerald-600 shadow-md transform -rotate-2 hover:rotate-0 transition duration-300 flex items-center justify-center w-12 h-12">
+                    <span class="text-2xl">🎒</span>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-extrabold text-xl tracking-tight text-white font-cute">SDN DUKUH MENANGGAL I/424</h1>
+                        <span class="bg-yellow-300 text-yellow-950 font-bold text-[10px] px-2 py-0.5 rounded-full shadow-sm">Surabaya ✨</span>
+                    </div>
+                    <p class="text-xs text-emerald-100 font-medium">Sistem Presensi Siswa Digital • Ceria, Mudah, & Terintegrasi</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <button onclick="openModal('modal-script-guide')" class="cute-btn px-3.5 py-2 text-xs font-semibold bg-emerald-700/80 hover:bg-emerald-700 text-emerald-50 rounded-xl flex items-center gap-2 border border-emerald-500/50 shadow-sm">
+                    <i class="fa-solid fa-code text-yellow-300"></i> Kode Apps Script
+                </button>
+                <button onclick="openModal('modal-settings')" class="cute-btn px-3.5 py-2 text-xs font-bold bg-white text-emerald-800 hover:bg-emerald-50 rounded-xl flex items-center gap-2 shadow-md">
+                    <i class="fa-solid fa-sliders text-teal-600"></i> Kelola Kelas & URL Sheet
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 py-5 sm:px-6 lg:px-8 no-print space-y-5">
+        
+        <!-- Filter & Control Card -->
+        <div class="glass-card rounded-2xl shadow-sm border border-emerald-100/80 p-4 sm:p-5 relative overflow-hidden">
+            <!-- Cute decorative accent bar -->
+            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-300"></div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+                
+                <!-- Tahun Pelajaran -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Tahun Pelajaran
+                    </label>
+                    <div class="relative">
+                        <input type="text" id="input-tapel" value="2026/2027" onchange="saveAppState()" 
+                               class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition">
+                    </div>
+                </div>
+
+                <!-- Pilih Kelas -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-amber-400"></span> Pilih Kelas
+                    </label>
+                    <div class="flex gap-2">
+                        <select id="select-kelas" onchange="changeClass()" 
+                                class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-bold text-emerald-800 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition cursor-pointer">
+                            <!-- Populated dynamically -->
+                        </select>
+                        <button onclick="openModal('modal-add-class')" class="cute-btn bg-emerald-600 text-white px-3.5 py-2 rounded-xl hover:bg-emerald-700 transition shadow-sm flex items-center justify-center shrink-0" title="Tambah Kelas Baru">
+                            <i class="fa-solid fa-plus text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bulan & Sheet -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-sky-400"></span> Bulan Presensi
+                    </label>
+                    <select id="select-bulan" onchange="changeMonth()" 
+                            class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-bold text-slate-700 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition cursor-pointer">
+                        <option value="Januari">🌸 Januari</option>
+                        <option value="Februari">🍫 Februari</option>
+                        <option value="Maret">🌱 Maret</option>
+                        <option value="April">🌧️ April</option>
+                        <option value="Mei">🌺 Mei</option>
+                        <option value="Juni">☀️ Juni</option>
+                        <option value="Juli">🏖️ Juli</option>
+                        <option value="Agustus">🇮🇩 Agustus</option>
+                        <option value="September">🌾 September</option>
+                        <option value="Oktober">🍁 Oktober</option>
+                        <option value="November">🌧️ November</option>
+                        <option value="Desember">❄️ Desember</option>
+                    </select>
+                </div>
+
+                <!-- Input Tanggal Aktif -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-pink-400"></span> Tanggal Input
+                    </label>
+                    <input type="date" id="input-tanggal" onchange="onDateSelectChange()" 
+                           class="w-full bg-slate-50/80 border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold text-slate-700 focus:ring-2 focus:ring-emerald-500/40 focus:border-emerald-500 focus:outline-none transition">
+                </div>
+
+                <!-- Status Apps Script Badge -->
+                <div>
+                    <span class="block text-xs font-bold text-slate-600 mb-1.5 flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-purple-400"></span> Google Sheet Sync
+                    </span>
+                    <div id="gas-status-badge" class="px-3.5 py-2 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold flex items-center justify-between shadow-xs">
+                        <span id="gas-status-text" class="truncate font-semibold">Belum diset</span>
+                        <i id="gas-status-icon" class="fa-solid fa-circle-exclamation text-amber-500 ml-1"></i>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Action Buttons & Auto Fill Options -->
+        <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3">
+            
+            <!-- View Mode Switcher & Status Badges -->
+            <div class="flex flex-wrap items-center gap-2">
+                <!-- View Mode Toggle (Mobile Friendly) -->
+                <div class="bg-slate-200/80 p-1 rounded-2xl flex items-center shadow-inner text-xs font-bold w-full sm:w-auto">
+                    <button id="btn-view-daily" onclick="setViewMode('daily')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 bg-white text-emerald-800 shadow-xs">
+                        <i class="fa-solid fa-mobile-screen-button text-emerald-600"></i> Mode Harian (HP)
+                    </button>
+                    <button id="btn-view-matrix" onclick="setViewMode('matrix')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-800">
+                        <i class="fa-solid fa-table-cells text-teal-600"></i> Matrix 31 Hari
+                    </button>
+                </div>
+
+                <!-- Status Legend Badges -->
+                <div class="hidden sm:flex items-center gap-1.5 flex-wrap bg-white/70 backdrop-blur px-3 py-1.5 rounded-2xl border border-slate-200/80 shadow-xs">
+                    <span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 text-[11px] font-extrabold rounded-lg border border-emerald-200">
+                        • Hadir
+                    </span>
+                    <span class="px-2 py-0.5 bg-sky-100 text-sky-800 text-[11px] font-bold rounded-lg border border-sky-200">
+                        S Sakit
+                    </span>
+                    <span class="px-2 py-0.5 bg-amber-100 text-amber-800 text-[11px] font-bold rounded-lg border border-amber-200">
+                        I Izin
+                    </span>
+                    <span class="px-2 py-0.5 bg-rose-100 text-rose-800 text-[11px] font-bold rounded-lg border border-rose-200">
+                        A Alpa
+                    </span>
+                </div>
+            </div>
+
+            <!-- Functional Action Buttons -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 sm:pb-0">
+                <button onclick="autofillPresent()" class="cute-btn px-3 py-2 bg-white hover:bg-emerald-50 text-emerald-800 rounded-xl text-xs font-bold transition flex items-center gap-1.5 border border-emerald-200 shadow-sm shrink-0">
+                    <i class="fa-solid fa-wand-magic-sparkles text-emerald-600"></i> Auto-Isi Hadir (•)
+                </button>
+                <button onclick="saveToSpreadsheet()" class="cute-btn px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shrink-0">
+                    <i class="fa-solid fa-cloud-arrow-up text-emerald-200"></i> Sync Sheet
+                </button>
+                <button onclick="openPrintModal()" class="cute-btn px-3 py-2 bg-slate-800 hover:bg-slate-900 text-white rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-md shrink-0">
+                    <i class="fa-solid fa-print text-yellow-400"></i> Cetak A4 / PDF
+                </button>
+            </div>
+        </div>
+
+        <!-- Attendance Content Card -->
+        <div class="glass-card rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+            <div class="px-4 sm:px-5 py-3 border-b border-slate-100 flex flex-wrap justify-between items-center gap-2 bg-slate-50/80">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs shrink-0">
+                        📋
+                    </div>
+                    <div>
+                        <h2 class="font-extrabold text-slate-800 text-xs sm:text-sm font-cute" id="table-title">Daftar Presensi Kelas</h2>
+                        <p class="text-[10px] sm:text-[11px] text-slate-500 font-medium" id="table-subtitle">Pilih status presensi siswa</p>
+                    </div>
+                </div>
+                <div class="text-[11px] sm:text-xs bg-emerald-50 border border-emerald-200/80 text-emerald-800 px-3 py-1 rounded-full font-bold">
+                    Total: <span id="total-siswa-count" class="font-extrabold text-emerald-700">0</span> Siswa
+                </div>
+            </div>
+
+            <!-- View Mode 1: Daily Mobile View (Card List) -->
+            <div id="view-daily-container" class="p-3 sm:p-4 space-y-2.5 max-h-[600px] overflow-y-auto custom-scrollbar bg-slate-50/40">
+                <!-- Dynamic Mobile Daily Cards populated by JavaScript -->
+            </div>
+
+            <!-- View Mode 2: Matrix Table View (31 Days) -->
+            <div id="view-matrix-container" class="overflow-x-auto custom-scrollbar max-h-[550px] hidden">
+                <table class="w-full text-xs text-left border-collapse">
+                    <thead class="bg-slate-100/90 text-slate-700 sticky top-0 z-30 shadow-xs backdrop-blur">
+                        <tr id="table-header-row">
+                            <th class="py-3 px-2 border-b border-r border-slate-200/80 text-center sticky-col-no bg-slate-100">No</th>
+                            <th class="py-3 px-2.5 border-b border-r border-slate-200/80 sticky-col-name bg-slate-100 shadow-xs">Nama Siswa</th>
+                            <!-- Dynamic Date Headers (1 to 31) -->
+                        </tr>
+                    </thead>
+                    <tbody id="attendance-tbody" class="divide-y divide-slate-100 bg-white">
+                        <!-- Dynamic Student Rows -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal: Kelola Kelas & AppScript URL -->
+    <div id="modal-settings" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2 font-cute text-base">
+                    <span class="text-xl">⚙️</span> Pengaturan Kelas & Link Apps Script
+                </h3>
+                <button onclick="closeModal('modal-settings')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto space-y-5 flex-1 custom-scrollbar">
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 text-xs text-emerald-900 font-medium flex items-start gap-2">
+                    <i class="fa-solid fa-circle-info text-emerald-600 mt-0.5"></i>
+                    <div>
+                        Setiap kelas terhubung ke Spreadsheet terpisah melalui link <strong>Google Apps Script Web App</strong> kelas masing-masing.
+                    </div>
+                </div>
+
+                <div id="class-settings-container" class="space-y-4">
+                    <!-- Dynamic Class Settings List -->
+                </div>
+            </div>
+            <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+                <button onclick="closeModal('modal-settings')" class="cute-btn px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold">Tutup</button>
+                <button onclick="saveSettings()" class="cute-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Pengaturan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Tambah Kelas Baru -->
+    <div id="modal-add-class" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-100">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
+                <h3 class="font-bold text-slate-800 font-cute text-base flex items-center gap-2">
+                    <span>✨</span> Tambah Kelas Baru
+                </h3>
+                <button onclick="closeModal('modal-add-class')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Nama Kelas (Contoh: Kelas 1A, Kelas 6B)</label>
+                    <input type="text" id="new-class-name" placeholder="Misal: Kelas 1A" 
+                           class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Link Apps Script (Opsional)</label>
+                    <input type="url" id="new-class-url" placeholder="https://script.google.com/macros/s/.../exec" 
+                           class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Daftar Siswa (Satu nama per baris)</label>
+                    <textarea id="new-class-students" rows="5" placeholder="Ahmad&#10;Budi&#10;Siti" 
+                              class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none custom-scrollbar"></textarea>
+                </div>
+            </div>
+            <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+                <button onclick="closeModal('modal-add-class')" class="cute-btn px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="addNewClass()" class="cute-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Simpan Kelas</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Form Cetak A4 PDF -->
+    <div id="modal-print" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg overflow-hidden border border-slate-100">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-rose-50/50">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2 font-cute text-base">
+                    <i class="fa-solid fa-file-pdf text-rose-500"></i> Parameter Cetak Laporan (A4)
+                </h3>
+                <button onclick="closeModal('modal-print')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Tempat Cetak</label>
+                        <input type="text" id="print-tempat" value="Surabaya" 
+                               class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-600 mb-1">Tanggal Dokumen</label>
+                        <input type="text" id="print-tanggal-dokumen" placeholder="Contoh: 31 Januari 2026" 
+                               class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-3">
+                    <h4 class="text-xs font-extrabold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Data Guru Kelas
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Guru Kelas</label>
+                            <input type="text" id="print-guru-nama" placeholder="Nama Guru, S.Pd." 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Guru</label>
+                            <input type="text" id="print-guru-nip" placeholder="19800101 200501 1 001" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-slate-100 pt-3">
+                    <h4 class="text-xs font-extrabold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-amber-500"></span> Data Kepala Sekolah
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Kepala Sekolah</label>
+                            <input type="text" id="print-ks-nama" placeholder="Kepala Sekolah, M.Pd." 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Kepala Sekolah</label>
+                            <input type="text" id="print-ks-nip" placeholder="19750202 199802 2 002" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50 flex justify-end gap-2">
+                <button onclick="closeModal('modal-print')" class="cute-btn px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-xl text-xs font-bold">Batal</button>
+                <button onclick="triggerPrintProcess()" class="cute-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold flex items-center gap-1.5">
+                    <i class="fa-solid fa-print"></i> Cetak Dokumen
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Panduan Google Apps Script -->
+    <div id="modal-script-guide" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh] border border-slate-100">
+            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
+                <h3 class="font-bold text-slate-800 flex items-center gap-2 font-cute text-base">
+                    <i class="fa-solid fa-code text-emerald-600"></i> Panduan Kode Google Apps Script
+                </h3>
+                <button onclick="closeModal('modal-script-guide')" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-6 overflow-y-auto text-xs space-y-4 text-slate-600 flex-1 custom-scrollbar">
+                <p class="text-sm text-slate-800 font-medium">Salin kode JavaScript berikut ke menu <strong>Extensions &gt; Apps Script</strong> pada Spreadsheet masing-masing kelas Anda, lalu deploy sebagai <strong>Web App</strong> (Akses: <em>Anyone / Siapa Saja</em>).</p>
+                
+                <div class="relative bg-slate-900 text-emerald-300 p-4 rounded-xl font-mono text-[11px] overflow-x-auto border border-slate-800">
+                    <button onclick="copyAppsScriptCode()" class="absolute top-3 right-3 bg-slate-700 hover:bg-slate-600 text-white px-2.5 py-1 rounded-lg text-[10px] flex items-center gap-1 font-sans font-bold">
+                        <i class="fa-regular fa-copy"></i> Salin Kode
+                    </button>
+                    <pre id="apps-script-code-block">// ==========================================
+// KODE GOOGLE APPS SCRIPT PRESENSI SISWA
+// SDN DUKUH MENANGGAL I/424 SURABAYA
+// ==========================================
+
+function doPost(e) {
+  try {
+    var contents = JSON.parse(e.postData.contents);
+    var monthName = contents.month; // Contoh: "Januari"
+    var attendanceData = contents.data; // Array object [{nama: 'Ahmad', dates: {1:'•', 2:'S'}}]
+    
+    var ss = SpreadsheetApp.getActiveSpreadsheet();
+    var sheet = ss.getSheetByName(monthName);
+    
+    // Buat Sheet Baru Jika Belum Ada
+    if (!sheet) {
+      sheet = ss.insertSheet(monthName);
+      // Header Table
+      var headers = ["No", "Nama Siswa"];
+      for (var d = 1; d <= 31; d++) {
+        headers.push(d.toString());
+      }
+      sheet.appendRow(headers);
+      sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#dcfce7");
+    }
+    
+    // Tulis Data Presensi Siswa
+    sheet.getRange(2, 1, sheet.getLastRow() + 1, 33).clearContent();
+    
+    var rows = [];
+    for (var i = 0; i < attendanceData.length; i++) {
+      var item = attendanceData[i];
+      var row = [i + 1, item.nama];
+      for (var day = 1; day <= 31; day++) {
+        row.push(item.dates[day] || "");
+      }
+      rows.push(row);
+    }
+    
+    if (rows.length > 0) {
+      sheet.getRange(2, 1, rows.length, rows[0].length).setValues(rows);
+    }
+    
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "success", 
+      message: "Data presensi bulan " + monthName + " berhasil disimpan!"
+    })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (err) {
+    return ContentService.createTextOutput(JSON.stringify({
+      status: "error", 
+      message: err.toString()
+    })).setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doGet(e) {
+  return ContentService.createTextOutput("Service Presensi Berjalan Normal.");
+}</pre>
+                </div>
+
+                <div class="bg-amber-50 border border-amber-200/80 p-3.5 rounded-xl text-amber-900 leading-relaxed font-medium">
+                    <strong class="font-bold flex items-center gap-1 mb-1 text-amber-950">
+                        <span>💡</span> Langkah Deploy Apps Script:
+                    </strong>
+                    <ol class="list-decimal list-inside space-y-1">
+                        <li>Buka Google Spreadsheet untuk kelas terkait.</li>
+                        <li>Klik <strong>Extensions</strong> &gt; <strong>Apps Script</strong>.</li>
+                        <li>Hapus isi default, lalu tempel kode di atas. Simpan proyek.</li>
+                        <li>Klik <strong>Deploy</strong> &gt; <strong>New deployment</strong>.</li>
+                        <li>Pilih <i>Select type</i>: <strong>Web app</strong>.</li>
+                        <li>Set <i>Execute as</i>: <strong>Me</strong>, dan <i>Who has access</i>: <strong>Anyone</strong>.</li>
+                        <li>Klik <strong>Deploy</strong>, lalu salin <strong>Web App URL</strong> dan tempel di Pengaturan Kelas pada aplikasi ini.</li>
+                    </ol>
+                </div>
+            </div>
+            <div class="px-6 py-3.5 border-t border-slate-100 bg-slate-50 flex justify-end">
+                <button onclick="closeModal('modal-script-guide')" class="cute-btn px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold">Saya Mengerti</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Printable Area (Formatted strictly for A4 Landscape) -->
+    <div id="print-area" class="hidden">
+        <div class="text-center mb-4">
+            <h2 class="text-base font-bold uppercase tracking-wide">REKAPITULASI PRESENSI SISWA</h2>
+            <h1 class="text-xl font-extrabold uppercase">SDN DUKUH MENANGGAL I/424 SURABAYA</h1>
+            <p class="text-xs mt-0.5">TAHUN PELAJARAN <span id="print-disp-tapel">2026/2027</span> • BULAN: <span id="print-disp-bulan" class="uppercase font-bold">JANUARI</span></p>
+            <p class="text-xs font-semibold">KELAS: <span id="print-disp-kelas" class="uppercase">1A</span></p>
+        </div>
+
+        <!-- Printable Table -->
+        <table class="w-full text-[10px] border-collapse border border-slate-800 mb-6">
+            <thead>
+                <tr class="bg-slate-100 text-center font-bold">
+                    <th class="border border-slate-800 py-1.5 px-1 w-6" rowspan="2">No</th>
+                    <th class="border border-slate-800 py-1.5 px-2 text-left min-w-[140px]" rowspan="2">Nama Siswa</th>
+                    <th class="border border-slate-800 py-1 px-1" colspan="31">Tanggal</th>
+                    <th class="border border-slate-800 py-1 px-1" colspan="4">Total</th>
+                </tr>
+                <tr class="bg-slate-50 text-center font-bold">
+                    <!-- Dates 1-31 -->
+                    <script>
+                        for(let i=1; i<=31; i++) {
+                            document.write(`<th class="border border-slate-800 p-0.5 w-5">${i}</th>`);
+                        }
+                    </script>
+                    <th class="border border-slate-800 p-0.5 w-6 bg-emerald-50">H</th>
+                    <th class="border border-slate-800 p-0.5 w-6 bg-blue-50">S</th>
+                    <th class="border border-slate-800 p-0.5 w-6 bg-amber-50">I</th>
+                    <th class="border border-slate-800 p-0.5 w-6 bg-rose-50">A</th>
+                </tr>
+            </thead>
+            <tbody id="print-table-body">
+                <!-- Dynamically filled during print preview -->
+            </tbody>
+        </table>
+
+        <!-- Signatures Footer -->
+        <div class="grid grid-cols-2 text-xs mt-8 gap-8">
+            <div class="text-center">
+                <p>Mengetahui,</p>
+                <p class="font-semibold">Kepala SDN DUKUH MENANGGAL I/424</p>
+                <div class="h-16"></div>
+                <p id="print-sign-ks-nama" class="font-bold underline">-------------------------</p>
+                <p>NIP. <span id="print-sign-ks-nip">-------------------</span></p>
+            </div>
+            <div class="text-center">
+                <p><span id="print-sign-tempat">Surabaya</span>, <span id="print-sign-tgl">31 Januari 2026</span></p>
+                <p class="font-semibold">Guru Kelas</p>
+                <div class="h-16"></div>
+                <p id="print-sign-guru-nama" class="font-bold underline">-------------------------</p>
+                <p>NIP. <span id="print-sign-guru-nip">-------------------</span></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out bg-slate-900/90 backdrop-blur text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border border-slate-700">
+        <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toast-message">Pesan notifikasi</span>
+    </div>
+
+    <!-- Quick Status Picker Popover (Cute floating popover) -->
+    <div id="quick-status-picker" class="fixed z-50 hidden bg-white/95 rounded-2xl shadow-2xl border border-slate-200/90 p-2.5 text-xs transition-all duration-150 backdrop-blur-md">
+        <div class="text-[11px] font-extrabold text-slate-500 mb-2 px-1 flex justify-between items-center border-b border-slate-100 pb-1.5">
+            <span id="picker-title" class="truncate max-w-[180px]">Pilih Status Presensi</span>
+            <button onclick="closeStatusPicker()" class="w-5 h-5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center ml-2">
+                <i class="fa-solid fa-xmark text-[10px]"></i>
+            </button>
+        </div>
+        <div class="flex items-center gap-1.5">
+            <button onclick="setStatusFromPicker('•')" class="cute-btn px-2.5 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-900 font-extrabold rounded-xl flex items-center gap-1.5 shadow-2xs">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block"></span> Hadir (•)
+            </button>
+            <button onclick="setStatusFromPicker('S')" class="cute-btn px-2.5 py-1.5 bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold rounded-xl flex items-center gap-1 shadow-2xs">
+                <span class="font-extrabold text-sky-700">S</span> Sakit
+            </button>
+            <button onclick="setStatusFromPicker('I')" class="cute-btn px-2.5 py-1.5 bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold rounded-xl flex items-center gap-1 shadow-2xs">
+                <span class="font-extrabold text-amber-700">I</span> Izin
+            </button>
+            <button onclick="setStatusFromPicker('A')" class="cute-btn px-2.5 py-1.5 bg-rose-100 hover:bg-rose-200 text-rose-900 font-bold rounded-xl flex items-center gap-1 shadow-2xs">
+                <span class="font-extrabold text-rose-700">A</span> Alpa
+            </button>
+            <button onclick="setStatusFromPicker('')" class="cute-btn px-2 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-medium rounded-xl" title="Kosongkan">
+                <i class="fa-solid fa-eraser"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Default Mock Data
+        const DEFAULT_APP_STATE = {
+            tapel: "2026/2027",
+            activeClassId: "cls-1a",
+            activeMonth: "Januari",
+            activeDate: new Date().toISOString().split('T')[0],
+            viewMode: "daily", // 'daily' (Mobile optimized) or 'matrix' (31 days)
+            printConfig: {
+                tempat: "Surabaya",
+                tanggalDokumen: "",
+                guruNama: "",
+                guruNip: "",
+                ksNama: "",
+                ksNip: ""
+            },
+            classes: [
+                {
+                    id: "cls-1a",
+                    name: "Kelas 1A",
+                    appscriptUrl: "",
+                    students: [
+                        "Ahmad Fadhil",
+                        "Aisha Az-Zahra",
+                        "Bagus Prasetyo",
+                        "Citra Kirana",
+                        "Davin Al-Ghazali",
+                        "Eka Putri Pertiwi",
+                        "Farhan Maulana",
+                        "Gilang Ramadhan",
+                        "Hania Syakira",
+                        "Intan Nuraini"
+                    ]
+                },
+                {
+                    id: "cls-1b",
+                    name: "Kelas 1B",
+                    appscriptUrl: "",
+                    students: [
+                        "Joko Susilo",
+                        "Kurnia Dewi",
+                        "Lesti Andryani",
+                        "Muhammad Rizky"
+                    ]
+                }
+            ],
+            attendance: {}
+        };
+
+        let appData = {};
+        let syncDebounceTimer = null;
+        let currentPickerTarget = null;
+
+        // App Initialization
+        window.onload = function() {
+            loadAppState();
+            renderClassDropdown();
+            syncActiveMonthFromDate();
+            renderView();
+            updateGasStatusBadge();
+        };
+
+        // Helper: Save State to LocalStorage
+        function saveAppState() {
+            const tapelInput = document.getElementById("input-tapel");
+            if (tapelInput) appData.tapel = tapelInput.value;
+            localStorage.setItem("presensi_sdn_dukuh_menanggal", JSON.stringify(appData));
+        }
+
+        // Helper: Get Active Class Object
+        function getCurrentClass() {
+            if (!appData.classes || appData.classes.length === 0) return null;
+            let cls = appData.classes.find(c => c.id === appData.activeClassId);
+            if (!cls && appData.classes.length > 0) {
+                cls = appData.classes[0];
+                appData.activeClassId = cls.id;
+            }
+            return cls;
+        }
+
+        // Helper: Render Class Select Dropdown
+        function renderClassDropdown() {
+            const select = document.getElementById("select-kelas");
+            if (!select) return;
+            select.innerHTML = "";
+            appData.classes.forEach(cls => {
+                const option = document.createElement("option");
+                option.value = cls.id;
+                option.textContent = cls.name;
+                if (cls.id === appData.activeClassId) {
+                    option.selected = true;
+                }
+                select.appendChild(option);
+            });
+        }
+
+        // Helper: Sync Active Month Name from Selected Date
+        function syncActiveMonthFromDate() {
+            if (!appData.activeDate) return;
+            const dateObj = new Date(appData.activeDate);
+            if (isNaN(dateObj.getTime())) return;
+
+            const months = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+            const monthName = months[dateObj.getMonth()];
+            if (monthName) {
+                appData.activeMonth = monthName;
+                const selectBulan = document.getElementById("select-bulan");
+                if (selectBulan) selectBulan.value = monthName;
+            }
+        }
+
+        // Helper: Close Status Picker Popover
+        function closeStatusPicker() {
+            const picker = document.getElementById("quick-status-picker");
+            if (picker) picker.classList.add("hidden");
+            currentPickerTarget = null;
+        }
+
+        // Event listener to close popover when clicking outside
+        document.addEventListener("click", function(e) {
+            const picker = document.getElementById("quick-status-picker");
+            if (picker && !picker.classList.contains("hidden")) {
+                if (!picker.contains(e.target) && !e.target.closest("button[onclick*='openStatusPicker']")) {
+                    closeStatusPicker();
+                }
+            }
+        });
+
+        function loadAppState() {
+            const saved = localStorage.getItem("presensi_sdn_dukuh_menanggal");
+            if (saved) {
+                try {
+                    appData = JSON.parse(saved);
+                } catch(e) {
+                    appData = JSON.parse(JSON.stringify(DEFAULT_APP_STATE));
+                }
+            } else {
+                appData = JSON.parse(JSON.stringify(DEFAULT_APP_STATE));
+            }
+
+            if (!appData.viewMode) appData.viewMode = "daily";
+
+            document.getElementById("input-tapel").value = appData.tapel || "2026/2027";
+            document.getElementById("input-tanggal").value = appData.activeDate || new Date().toISOString().split('T')[0];
+            
+            if (appData.activeMonth) {
+                document.getElementById("select-bulan").value = appData.activeMonth;
+            }
+
+            updateViewSwitcherUI();
+        }
+
+        function setViewMode(mode) {
+            appData.viewMode = mode;
+            saveAppState();
+            updateViewSwitcherUI();
+            renderView();
+        }
+
+        function updateViewSwitcherUI() {
+            const btnDaily = document.getElementById("btn-view-daily");
+            const btnMatrix = document.getElementById("btn-view-matrix");
+            const dailyContainer = document.getElementById("view-daily-container");
+            const matrixContainer = document.getElementById("view-matrix-container");
+
+            if (appData.viewMode === "daily") {
+                btnDaily.className = "flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 bg-white text-emerald-800 shadow-xs font-bold";
+                btnMatrix.className = "flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-800 font-semibold";
+                dailyContainer.classList.remove("hidden");
+                matrixContainer.classList.add("hidden");
+            } else {
+                btnMatrix.className = "flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 bg-white text-emerald-800 shadow-xs font-bold";
+                btnDaily.className = "flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 text-slate-600 hover:text-slate-800 font-semibold";
+                matrixContainer.classList.remove("hidden");
+                dailyContainer.classList.add("hidden");
+            }
+        }
+
+        function renderView() {
+            if (appData.viewMode === "daily") {
+                renderDailyView();
+            } else {
+                renderAttendanceMatrix();
+            }
+        }
+
+        function changeClass() {
+            const select = document.getElementById("select-kelas");
+            appData.activeClassId = select.value;
+            saveAppState();
+            renderView();
+            updateGasStatusBadge();
+            showToast(`Beralih ke ${getCurrentClass()?.name}`);
+        }
+
+        function changeMonth() {
+            appData.activeMonth = document.getElementById("select-bulan").value;
+            saveAppState();
+            renderView();
+        }
+
+        function onDateSelectChange() {
+            const dateVal = document.getElementById("input-tanggal").value;
+            if (dateVal) {
+                appData.activeDate = dateVal;
+                syncActiveMonthFromDate();
+                saveAppState();
+                renderView();
+            }
+        }
+
+        // Render Mode Harian (Khusus Layar HP/Ponsel)
+        function renderDailyView() {
+            const currentClass = getCurrentClass();
+            const tableTitle = document.getElementById("table-title");
+            const tableSubtitle = document.getElementById("table-subtitle");
+            const studentCountEl = document.getElementById("total-siswa-count");
+            const container = document.getElementById("view-daily-container");
+
+            if (!currentClass) {
+                tableTitle.textContent = "Tidak Ada Kelas Terpilih";
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 font-medium">Silakan tambah kelas terlebih dahulu.</div>`;
+                return;
+            }
+
+            const selectedDay = new Date(appData.activeDate).getDate();
+            tableTitle.textContent = `Input Presensi Harian - ${currentClass.name}`;
+            tableSubtitle.textContent = `Tanggal: ${selectedDay} ${appData.activeMonth} ${appData.tapel}`;
+            studentCountEl.textContent = currentClass.students.length;
+
+            if (currentClass.students.length === 0) {
+                container.innerHTML = `<div class="text-center py-8 text-slate-400 font-medium">Daftar siswa di kelas ini masih kosong.</div>`;
+                return;
+            }
+
+            // Ensure data structure exists
+            if (!appData.attendance) appData.attendance = {};
+            if (!appData.attendance[currentClass.id]) appData.attendance[currentClass.id] = {};
+            if (!appData.attendance[currentClass.id][appData.activeMonth]) appData.attendance[currentClass.id][appData.activeMonth] = {};
+
+            const monthData = appData.attendance[currentClass.id][appData.activeMonth];
+            container.innerHTML = "";
+
+            currentClass.students.forEach((studentName, idx) => {
+                if (!monthData[studentName]) monthData[studentName] = {};
+                let status = monthData[studentName][selectedDay] || "";
+                if (status === ".") status = "•";
+
+                const escapedStudent = studentName.replace(/'/g, "\\'");
+
+                const card = document.createElement("div");
+                card.className = "bg-white p-3 rounded-2xl border border-slate-200/80 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 hover:border-emerald-200 transition";
+
+                card.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <span class="w-6 h-6 rounded-xl bg-slate-100 text-slate-500 font-bold text-xs flex items-center justify-center shrink-0">${idx + 1}</span>
+                        <span class="font-bold text-slate-800 text-xs sm:text-sm">${studentName}</span>
+                    </div>
+
+                    <!-- Touch Friendly Status Selector Buttons -->
+                    <div class="flex items-center gap-1.5 self-end sm:self-auto">
+                        <button onclick="setDirectStatus('${escapedStudent}', ${selectedDay}, '•')" 
+                                class="cute-btn px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 border ${status === '•' ? 'bg-emerald-500 text-white border-emerald-600 shadow-xs scale-105' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-emerald-50'}">
+                            <span class="w-2 h-2 rounded-full ${status === '•' ? 'bg-white' : 'bg-emerald-500'}"></span> Hadir
+                        </button>
+
+                        <button onclick="setDirectStatus('${escapedStudent}', ${selectedDay}, 'S')" 
+                                class="cute-btn px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 border ${status === 'S' ? 'bg-sky-500 text-white border-sky-600 shadow-xs scale-105' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-sky-50'}">
+                            Sakit
+                        </button>
+
+                        <button onclick="setDirectStatus('${escapedStudent}', ${selectedDay}, 'I')" 
+                                class="cute-btn px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 border ${status === 'I' ? 'bg-amber-500 text-white border-amber-600 shadow-xs scale-105' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-amber-50'}">
+                            Izin
+                        </button>
+
+                        <button onclick="setDirectStatus('${escapedStudent}', ${selectedDay}, 'A')" 
+                                class="cute-btn px-2.5 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1 border ${status === 'A' ? 'bg-rose-500 text-white border-rose-600 shadow-xs scale-105' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-rose-50'}">
+                            Alpa
+                        </button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+        }
+
+        function setDirectStatus(studentName, day, status) {
+            const currentClass = getCurrentClass();
+            if (!currentClass) return;
+
+            const monthData = appData.attendance[currentClass.id][appData.activeMonth];
+            monthData[studentName][day] = status;
+
+            saveAppState();
+            renderView();
+            autoSyncToSpreadsheet();
+        }
+
+        function renderAttendanceMatrix() {
+            const currentClass = getCurrentClass();
+            const tableTitle = document.getElementById("table-title");
+            const tableSubtitle = document.getElementById("table-subtitle");
+            const studentCountEl = document.getElementById("total-siswa-count");
+            const tbody = document.getElementById("attendance-tbody");
+            const theadRow = document.getElementById("table-header-row");
+
+            if (!currentClass) return;
+
+            tableTitle.textContent = `Daftar Presensi - ${currentClass.name}`;
+            const selectedDay = new Date(appData.activeDate).getDate();
+            tableSubtitle.textContent = `Tanggal Aktif: ${selectedDay} ${appData.activeMonth}`;
+            studentCountEl.textContent = currentClass.students.length;
+
+            // Header columns reset
+            theadRow.innerHTML = `
+                <th class="py-3 px-2 border-b border-r border-slate-200/80 text-center sticky-col-no bg-slate-100">No</th>
+                <th class="py-3 px-2.5 border-b border-r border-slate-200/80 sticky-col-name bg-slate-100 shadow-xs">Nama Siswa</th>
+            `;
+
+            for (let day = 1; day <= 31; day++) {
+                const isSelectedDay = (day === selectedDay);
+                const bgClass = isSelectedDay ? "bg-emerald-600 text-white font-extrabold" : "bg-slate-100 text-slate-600 font-bold";
+                theadRow.innerHTML += `<th class="py-2.5 px-1 border-b border-r border-slate-200/80 text-center min-w-[32px] ${bgClass}">${day}</th>`;
+            }
+
+            tbody.innerHTML = "";
+
+            if (currentClass.students.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="33" class="text-center py-8 text-slate-400 font-medium">Daftar siswa di kelas ini masih kosong.</td></tr>`;
+                return;
+            }
+
+            if (!appData.attendance) appData.attendance = {};
+            if (!appData.attendance[currentClass.id]) appData.attendance[currentClass.id] = {};
+            if (!appData.attendance[currentClass.id][appData.activeMonth]) appData.attendance[currentClass.id][appData.activeMonth] = {};
+
+            const monthData = appData.attendance[currentClass.id][appData.activeMonth];
+
+            currentClass.students.forEach((studentName, idx) => {
+                if (!monthData[studentName]) monthData[studentName] = {};
+
+                const tr = document.createElement("tr");
+                tr.className = "hover:bg-emerald-50/40 transition-colors";
+
+                tr.innerHTML = `
+                    <td class="py-2.5 px-2 border-b border-r border-slate-100 text-center font-bold text-slate-400 bg-white sticky-col-no z-10">${idx + 1}</td>
+                    <td class="py-2.5 px-2.5 border-b border-r border-slate-100 font-bold text-slate-700 bg-white sticky-col-name z-10 shadow-xs truncate" title="${studentName}">${studentName}</td>
+                `;
+
+                for (let day = 1; day <= 31; day++) {
+                    let status = monthData[studentName][day] || "";
+                    if (status === ".") status = "•";
+
+                    const isSelectedDay = (day === selectedDay);
+
+                    let statusBg = "bg-white text-slate-300";
+                    if (status === "•") statusBg = "bg-emerald-100/90 text-emerald-800 font-extrabold border border-emerald-300 text-xs shadow-2xs";
+                    else if (status === "S") statusBg = "bg-sky-100/90 text-sky-800 font-bold border border-sky-300 shadow-2xs";
+                    else if (status === "I") statusBg = "bg-amber-100/90 text-amber-800 font-bold border border-amber-300 shadow-2xs";
+                    else if (status === "A") statusBg = "bg-rose-100/90 text-rose-800 font-bold border border-rose-300 shadow-2xs";
+
+                    const activeCellHighlight = isSelectedDay ? "ring-2 ring-emerald-500/60 ring-inset" : "";
+
+                    const escapedStudent = studentName.replace(/'/g, "\\'");
+                    tr.innerHTML += `
+                        <td class="p-0.5 border-b border-r border-slate-100 text-center ${activeCellHighlight}">
+                            <button onclick="openStatusPicker(event, '${escapedStudent}', ${day})" 
+                                    class="w-full h-8 flex items-center justify-center rounded-xl text-xs transition-all cute-btn ${statusBg} hover:opacity-90">
+                                ${status || '<span class="text-slate-200 text-[10px]">•</span>'}
+                            </button>
+                        </td>
+                    `;
+                }
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Adapted openStatusPicker with Mobile Screen Bounds Logic
+        function openStatusPicker(event, studentName, day) {
+            event.stopPropagation();
+            currentPickerTarget = { studentName, day };
+
+            const picker = document.getElementById("quick-status-picker");
+            const title = document.getElementById("picker-title");
+            if (title) title.textContent = `${studentName} (${day} ${appData.activeMonth})`;
+
+            picker.classList.remove("hidden");
+
+            const rect = event.currentTarget.getBoundingClientRect();
+            const pickerRect = picker.getBoundingClientRect();
+
+            let top = rect.bottom + 6;
+            let left = rect.left - (pickerRect.width / 2) + (rect.width / 2);
+
+            if (left + pickerRect.width > window.innerWidth - 12) {
+                left = window.innerWidth - pickerRect.width - 12;
+            }
+            if (left < 12) left = 12;
+
+            if (top + pickerRect.height > window.innerHeight - 12) {
+                top = rect.top - pickerRect.height - 6;
+            }
+
+            picker.style.top = `${top}px`;
+            picker.style.left = `${left}px`;
+        }
+
+        function setStatusFromPicker(status) {
+            if (!currentPickerTarget) return;
+            const { studentName, day } = currentPickerTarget;
+
+            const currentClass = getCurrentClass();
+            if (!currentClass) return;
+
+            const monthData = appData.attendance[currentClass.id][appData.activeMonth];
+            monthData[studentName][day] = status;
+
+            closeStatusPicker();
+            saveAppState();
+            renderView();
+            autoSyncToSpreadsheet();
+        }
+
+        function autofillPresent() {
+            const currentClass = getCurrentClass();
+            if (!currentClass) return;
+
+            const selectedDay = new Date(appData.activeDate).getDate();
+            const monthData = appData.attendance[currentClass.id][appData.activeMonth];
+
+            let filledCount = 0;
+            currentClass.students.forEach(student => {
+                if (!monthData[student][selectedDay]) {
+                    monthData[student][selectedDay] = "•";
+                    filledCount++;
+                }
+            });
+
+            saveAppState();
+            renderView();
+            showToast(`Otomatis mengisi ${filledCount} siswa hadir (•) tgl ${selectedDay}`);
+            autoSyncToSpreadsheet();
+        }
+
+        function autoSyncToSpreadsheet() {
+            const currentClass = getCurrentClass();
+            if (!currentClass || !currentClass.appscriptUrl || currentClass.appscriptUrl.trim() === "") {
+                updateGasStatusBadge("Belum Terhubung", "amber");
+                return;
+            }
+
+            updateGasStatusBadge("Menyimpan ke Sheet...", "blue");
+
+            clearTimeout(syncDebounceTimer);
+            syncDebounceTimer = setTimeout(async () => {
+                try {
+                    const monthName = appData.activeMonth;
+                    const monthData = appData.attendance[currentClass.id]?.[monthName] || {};
+
+                    const payloadData = currentClass.students.map(student => ({
+                        nama: student,
+                        dates: monthData[student] || {}
+                    }));
+
+                    const payload = {
+                        month: monthName,
+                        data: payloadData
+                    };
+
+                    await fetch(currentClass.appscriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    updateGasStatusBadge("Tersimpan di Sheet", "emerald");
+                } catch (err) {
+                    console.error(err);
+                    updateGasStatusBadge("Gagal Sync", "rose");
+                }
+            }, 800);
+        }
+
+        async function saveToSpreadsheet() {
+            autoSyncToSpreadsheet();
+            showToast("Memproses sinkronisasi data presensi...", "info");
+        }
+
+        function updateGasStatusBadge(customText = null, customColor = null) {
+            const currentClass = getCurrentClass();
+            const badgeText = document.getElementById("gas-status-text");
+            const badgeIcon = document.getElementById("gas-status-icon");
+            const badgeBox = document.getElementById("gas-status-badge");
+
+            if (!currentClass || !currentClass.appscriptUrl) {
+                badgeText.textContent = "Belum Terhubung";
+                badgeBox.className = "px-3.5 py-2 rounded-xl bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold flex items-center justify-between shadow-2xs";
+                badgeIcon.className = "fa-solid fa-triangle-exclamation text-amber-500";
+                return;
+            }
+
+            if (customText) {
+                badgeText.textContent = customText;
+                if (customColor === "blue") {
+                    badgeBox.className = "px-3.5 py-2 rounded-xl bg-sky-50 text-sky-800 border border-sky-200 text-xs font-bold flex items-center justify-between animate-pulse shadow-2xs";
+                    badgeIcon.className = "fa-solid fa-rotate text-sky-500 fa-spin";
+                } else if (customColor === "emerald") {
+                    badgeBox.className = "px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold flex items-center justify-between shadow-2xs";
+                    badgeIcon.className = "fa-solid fa-cloud-arrow-up text-emerald-600";
+                } else if (customColor === "rose") {
+                    badgeBox.className = "px-3.5 py-2 rounded-xl bg-rose-50 text-rose-800 border border-rose-200 text-xs font-bold flex items-center justify-between shadow-2xs";
+                    badgeIcon.className = "fa-solid fa-circle-exclamation text-rose-500";
+                }
+            } else {
+                badgeText.textContent = "Auto-Sync Aktif";
+                badgeBox.className = "px-3.5 py-2 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-bold flex items-center justify-between shadow-2xs";
+                badgeIcon.className = "fa-solid fa-cloud-check text-emerald-600";
+            }
+        }
+
+        function openModal(id) {
+            if (id === 'modal-settings') renderSettingsModalContent();
+            document.getElementById(id).classList.remove("hidden");
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add("hidden");
+        }
+
+        function renderSettingsModalContent() {
+            const container = document.getElementById("class-settings-container");
+            container.innerHTML = "";
+
+            appData.classes.forEach((cls, idx) => {
+                const card = document.createElement("div");
+                card.className = "p-4 border border-slate-200/80 rounded-2xl bg-slate-50/80 space-y-3";
+                card.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <input type="text" id="setting-name-${cls.id}" value="${cls.name}" 
+                               class="font-extrabold text-slate-800 bg-white border border-slate-200 rounded-lg px-2.5 py-1 text-xs focus:outline-none">
+                        <button onclick="deleteClass('${cls.id}')" class="text-rose-600 hover:text-rose-800 text-xs font-bold flex items-center gap-1 cute-btn">
+                            <i class="fa-regular fa-trash-can"></i> Hapus
+                        </button>
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Link Google Apps Script (Spreadsheet)</label>
+                        <input type="url" id="setting-url-${cls.id}" value="${cls.appscriptUrl || ''}" placeholder="https://script.google.com/macros/s/.../exec" 
+                               class="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Daftar Siswa (Satu nama per baris)</label>
+                        <textarea id="setting-students-${cls.id}" rows="4" 
+                                  class="w-full bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none custom-scrollbar">${cls.students.join('\n')}</textarea>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function saveSettings() {
+            appData.classes.forEach(cls => {
+                const nameEl = document.getElementById(`setting-name-${cls.id}`);
+                const urlEl = document.getElementById(`setting-url-${cls.id}`);
+                const stdEl = document.getElementById(`setting-students-${cls.id}`);
+
+                if (nameEl) cls.name = nameEl.value.trim();
+                if (urlEl) cls.appscriptUrl = urlEl.value.trim();
+                if (stdEl) {
+                    cls.students = stdEl.value
+                        .split('\n')
+                        .map(s => s.trim())
+                        .filter(s => s.length > 0);
+                }
+            });
+
+            saveAppState();
+            renderClassDropdown();
+            renderAttendanceMatrix();
+            closeModal('modal-settings');
+            showToast("Pengaturan kelas berhasil disimpan!");
+        }
+
+        function addNewClass() {
+            const name = document.getElementById("new-class-name").value.trim();
+            const url = document.getElementById("new-class-url").value.trim();
+            const studentsRaw = document.getElementById("new-class-students").value;
+
+            if (!name) {
+                showToast("Nama kelas wajib diisi!", "error");
+                return;
+            }
+
+            const students = studentsRaw
+                .split('\n')
+                .map(s => s.trim())
+                .filter(s => s.length > 0);
+
+            const newId = "cls-" + Date.now();
+            appData.classes.push({
+                id: newId,
+                name: name,
+                appscriptUrl: url,
+                students: students
+            });
+
+            appData.activeClassId = newId;
+
+            // Clear inputs
+            document.getElementById("new-class-name").value = "";
+            document.getElementById("new-class-url").value = "";
+            document.getElementById("new-class-students").value = "";
+
+            saveAppState();
+            renderClassDropdown();
+            renderAttendanceMatrix();
+            closeModal('modal-add-class');
+            showToast(`Kelas ${name} berhasil ditambahkan!`);
+        }
+
+        function deleteClass(classId) {
+            if (appData.classes.length <= 1) {
+                showToast("Gagal! Minimal harus ada 1 kelas.", "error");
+                return;
+            }
+
+            appData.classes = appData.classes.filter(c => c.id !== classId);
+            if (appData.activeClassId === classId) {
+                appData.activeClassId = appData.classes[0].id;
+            }
+
+            saveAppState();
+            renderSettingsModalContent();
+            renderClassDropdown();
+            renderAttendanceMatrix();
+            showToast("Kelas berhasil dihapus.");
+        }
+
+        function openPrintModal() {
+            if (appData.printConfig) {
+                document.getElementById("print-tempat").value = appData.printConfig.tempat || "Surabaya";
+                document.getElementById("print-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || `31 ${appData.activeMonth} 2026`;
+                document.getElementById("print-guru-nama").value = appData.printConfig.guruNama || "";
+                document.getElementById("print-guru-nip").value = appData.printConfig.guruNip || "";
+                document.getElementById("print-ks-nama").value = appData.printConfig.ksNama || "";
+                document.getElementById("print-ks-nip").value = appData.printConfig.ksNip || "";
+            }
+            openModal('modal-print');
+        }
+
+        function triggerPrintProcess() {
+            const currentClass = getCurrentClass();
+            if (!currentClass) return;
+
+            // Save Print Config
+            appData.printConfig = {
+                tempat: document.getElementById("print-tempat").value,
+                tanggalDokumen: document.getElementById("print-tanggal-dokumen").value,
+                guruNama: document.getElementById("print-guru-nama").value,
+                guruNip: document.getElementById("print-guru-nip").value,
+                ksNama: document.getElementById("print-ks-nama").value,
+                ksNip: document.getElementById("print-ks-nip").value
+            };
+            saveAppState();
+
+            // Populate Print Template Text
+            document.getElementById("print-disp-tapel").textContent = appData.tapel;
+            document.getElementById("print-disp-bulan").textContent = appData.activeMonth;
+            document.getElementById("print-disp-kelas").textContent = currentClass.name;
+
+            document.getElementById("print-sign-tempat").textContent = appData.printConfig.tempat;
+            document.getElementById("print-sign-tgl").textContent = appData.printConfig.tanggalDokumen;
+            
+            document.getElementById("print-sign-guru-nama").textContent = appData.printConfig.guruNama || "...................................";
+            document.getElementById("print-sign-guru-nip").textContent = appData.printConfig.guruNip || "...................";
+            
+            document.getElementById("print-sign-ks-nama").textContent = appData.printConfig.ksNama || "...................................";
+            document.getElementById("print-sign-ks-nip").textContent = appData.printConfig.ksNip || "...................";
+
+            // Build Print Table
+            const printTbody = document.getElementById("print-table-body");
+            printTbody.innerHTML = "";
+
+            const monthData = appData.attendance[currentClass.id]?.[appData.activeMonth] || {};
+
+            currentClass.students.forEach((student, idx) => {
+                const tr = document.createElement("tr");
+                tr.className = "text-center";
+
+                let hCount = 0, sCount = 0, iCount = 0, aCount = 0;
+
+                let rowHtml = `
+                    <td class="border border-slate-800 p-1 font-medium">${idx + 1}</td>
+                    <td class="border border-slate-800 p-1 text-left font-semibold truncate max-w-[150px]">${student}</td>
+                `;
+
+                for (let d = 1; d <= 31; d++) {
+                    let status = monthData[student]?.[d] || "";
+                    if (status === ".") status = "•";
+
+                    if (status === "•") hCount++;
+                    else if (status === "S") sCount++;
+                    else if (status === "I") iCount++;
+                    else if (status === "A") aCount++;
+
+                    rowHtml += `<td class="border border-slate-800 p-0.5 text-center font-bold text-xs">${status}</td>`;
+                }
+
+                rowHtml += `
+                    <td class="border border-slate-800 p-0.5 bg-emerald-50 font-bold">${hCount || '-'}</td>
+                    <td class="border border-slate-800 p-0.5 bg-blue-50 font-bold">${sCount || '-'}</td>
+                    <td class="border border-slate-800 p-0.5 bg-amber-50 font-bold">${iCount || '-'}</td>
+                    <td class="border border-slate-800 p-0.5 bg-rose-50 font-bold">${aCount || '-'}</td>
+                `;
+
+                tr.innerHTML = rowHtml;
+                printTbody.appendChild(tr);
+            });
+
+            closeModal('modal-print');
+
+            // Show Print view and trigger browser print dialog
+            document.getElementById("print-area").classList.remove("hidden");
+            setTimeout(() => {
+                window.print();
+                document.getElementById("print-area").classList.add("hidden");
+            }, 300);
+        }
+
+        // Helper Code Copying & Toast Notification
+        function copyAppsScriptCode() {
+            const codeText = document.getElementById("apps-script-code-block").innerText;
+            const textarea = document.createElement("textarea");
+            textarea.value = codeText;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textarea);
+            showToast("Kode Apps Script berhasil disalin!");
+        }
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById("toast");
+            const toastMessage = document.getElementById("toast-message");
+            const toastIcon = document.getElementById("toast-icon");
+
+            toastMessage.textContent = message;
+
+            if (type === "error") {
+                toastIcon.className = "fa-solid fa-circle-xmark text-rose-400 text-base";
+            } else if (type === "info") {
+                toastIcon.className = "fa-solid fa-circle-info text-sky-400 text-base";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-check text-emerald-400 text-base";
+            }
+
+            toast.classList.remove("translate-y-20", "opacity-0");
+            
+            setTimeout(() => {
+                toast.classList.add("translate-y-20", "opacity-0");
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
