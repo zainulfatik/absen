@@ -331,8 +331,8 @@
                                    class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Dokumen (Kosongkan = Otomatis)</label>
-                            <input type="text" id="setting-tanggal-dokumen" placeholder="Kosongkan agar otomatis tanggal akhir bulan" 
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Dokumen (Kosongkan = Otomatis Akhir Bulan)</label>
+                            <input type="text" id="setting-tanggal-dokumen" placeholder="Kosongkan agar otomatis menyesuaikan bulan" 
                                    class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
                         </div>
                         <div>
@@ -368,7 +368,6 @@
         </div>
     </div>
 
-    <!-- Modal: Tambah Kelas Baru -->
     <div id="modal-add-class" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 no-print">
         <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden border border-slate-100">
             <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-emerald-50/50">
@@ -422,7 +421,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Tanggal Dokumen</label>
-                        <input type="text" id="print-tanggal-dokumen" placeholder="Contoh: 30 September 2026" 
+                        <input type="text" id="print-tanggal-dokumen" placeholder="Otomatis menyesuaikan bulan" 
                                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                     </div>
                 </div>
@@ -497,7 +496,7 @@
 function doPost(e) {
   try {
     var contents = JSON.parse(e.postData.contents);
-    var monthName = contents.month || "NOVEMBER";
+    var monthName = contents.month || "SEPTEMBER";
     var tapel = contents.tapel || "2026/2027";
     var className = contents.className || "Kelas 1A";
     var attendanceData = contents.data || [];
@@ -512,7 +511,7 @@ function doPost(e) {
     if (!sheet) {
       sheet = ss.insertSheet(monthName, ss.getSheets().length);
     } else {
-      // Lepas semua merge lama
+      // Lepas semua merge lama agar tidak terkunci di kolom Z
       sheet.getRange(1, 1, 100, 39).breakApart();
       sheet.clear();
     }
@@ -620,7 +619,7 @@ function doPost(e) {
     }
     
     // ----------------------------------------------------
-    // 5. PENETAPAN TANGGAL OTOMATIS AKHIR BULAN & TAHUN
+    // 5. PENETAPAN TANGGAL OTOMATIS AKHIR BULAN & TAHUN DINAMIS
     // ----------------------------------------------------
     var monthMap = {
       "JANUARI": { num: 1, maxDay: 31, sem: 2 },
@@ -638,7 +637,7 @@ function doPost(e) {
     };
 
     var mKey = (monthName || "").toUpperCase().trim();
-    var mInfo = monthMap[mKey] || { num: 11, maxDay: 30, sem: 1 };
+    var mInfo = monthMap[mKey] || { num: 9, maxDay: 30, sem: 1 };
     
     var years = (tapel || "").match(/\d{4}/g);
     var targetYear = new Date().getFullYear();
@@ -753,7 +752,7 @@ function doGet(e) {
             <img src="dumen.png" alt="Logo Sekolah" class="w-14 h-14 object-contain mb-2" onerror="this.style.display='none'">
             <h2 class="text-base font-bold uppercase tracking-wide">REKAPITULASI PRESENSI SISWA</h2>
             <h1 class="text-xl font-extrabold uppercase">SDN DUKUH MENANGGAL I/424 SURABAYA</h1>
-            <p class="text-xs mt-0.5">TAHUN PELAJARAN <span id="print-disp-tapel">2026/2027</span> • BULAN: <span id="print-disp-bulan" class="uppercase font-bold">JANUARI</span></p>
+            <p class="text-xs mt-0.5">TAHUN PELAJARAN <span id="print-disp-tapel">2026/2027</span> • BULAN: <span id="print-disp-bulan" class="uppercase font-bold">SEPTEMBER</span></p>
             <p class="text-xs font-semibold">KELAS: <span id="print-disp-kelas" class="uppercase">1A</span></p>
         </div>
 
@@ -799,13 +798,11 @@ function doGet(e) {
         </div>
     </div>
 
-    <!-- Notification Toast -->
     <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 ease-in-out bg-slate-900/90 backdrop-blur text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 text-xs font-semibold border border-slate-700">
         <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
         <span id="toast-message">Pesan notifikasi</span>
     </div>
 
-    <!-- Quick Status Picker Popover -->
     <div id="quick-status-picker" class="fixed z-50 hidden bg-white/95 rounded-2xl shadow-2xl border border-slate-200/90 p-2.5 text-xs transition-all duration-150 backdrop-blur-md">
         <div class="text-[11px] font-extrabold text-slate-500 mb-2 px-1 flex justify-between items-center border-b border-slate-100 pb-1.5">
             <span id="picker-title" class="truncate max-w-[180px]">Pilih Status Presensi</span>
@@ -871,7 +868,6 @@ function doGet(e) {
         let syncDebounceTimer = null;
         let currentPickerTarget = null;
 
-        // Helper: Format Tanggal Akhir Bulan Otomatis
         function calcAutoDate(monthName, tapel) {
             const monthMap = {
                 "JANUARI": { num: 1, maxDay: 31, sem: 2 },
@@ -889,7 +885,7 @@ function doGet(e) {
             };
 
             const mKey = (monthName || "").toUpperCase().trim();
-            const mInfo = monthMap[mKey] || { num: 11, maxDay: 30, sem: 1 };
+            const mInfo = monthMap[mKey] || { num: 9, maxDay: 30, sem: 1 };
 
             const years = (tapel || "").match(/\d{4}/g);
             let targetYear = new Date().getFullYear();
@@ -994,6 +990,11 @@ function doGet(e) {
 
             if (!appData.viewMode) appData.viewMode = "daily";
             if (!appData.printConfig) appData.printConfig = DEFAULT_APP_STATE.printConfig;
+
+            // Clear old static locked dates if present
+            if (appData.printConfig && (appData.printConfig.tanggalDokumen === "31 September 2026" || appData.printConfig.tanggalDokumen === "30 September 2026")) {
+                appData.printConfig.tanggalDokumen = "";
+            }
 
             document.getElementById("input-tapel").value = appData.tapel || "2026/2027";
             document.getElementById("input-tanggal").value = appData.activeDate || new Date().toISOString().split('T')[0];
