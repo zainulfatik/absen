@@ -379,8 +379,8 @@
             </div>
             <div class="p-6 space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-600 mb-1">Nama Kelas (Contoh: Kelas 1A, Kelas 6B)</label>
-                    <input type="text" id="new-class-name" placeholder="Misal: Kelas 1A" 
+                    <label class="block text-xs font-bold text-slate-600 mb-1">Nama Kelas (Contoh: Kelas 1A, V - C)</label>
+                    <input type="text" id="new-class-name" placeholder="Misal: V - C" 
                            class="w-full border border-slate-200 rounded-xl px-3.5 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                 </div>
                 <div>
@@ -497,44 +497,149 @@
 function doPost(e) {
   try {
     var contents = JSON.parse(e.postData.contents);
-    var monthName = contents.month; // Contoh: "Januari"
-    var attendanceData = contents.data; // Array object [{nama: 'Ahmad', dates: {1:'•', 2:'S'}}]
+    var monthName = contents.month || "NOVEMBER";
+    var tapel = contents.tapel || "2026/2027";
+    var className = contents.className || "V - C";
+    var attendanceData = contents.data || [];
     
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(monthName);
     
-    // Buat Sheet Baru Jika Belum Ada
+    // Buat Sheet Baru jika belum ada
     if (!sheet) {
       sheet = ss.insertSheet(monthName);
-      // Header Table
-      var headers = ["No", "Nama Siswa"];
-      for (var d = 1; d <= 31; d++) {
-        headers.push(d.toString());
-      }
-      sheet.appendRow(headers);
-      sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#dcfce7");
+    } else {
+      sheet.clear(); // Bersihkan isi & format lama agar rapi
     }
     
-    // Tulis Data Presensi Siswa
-    sheet.getRange(2, 1, sheet.getLastRow() + 1, 33).clearContent();
+    // Pastikan garis kisi-kisi (gridlines) terlihat
+    sheet.setHiddenGridlines(false);
     
+    // ----------------------------------------------------
+    // 1. JUDUL / HEADER ATAS (Row 1 - 3)
+    // ----------------------------------------------------
+    var totalCols = 39; // 1 (No) + 1 (Nama) + 1 (No.Induk) + 1 (NISN) + 31 (Tgl) + 4 (Rekap H,S,I,A)
+    
+    sheet.getRange(1, 1).setValue("DAFTAR HADIR PESERTA DIDIK");
+    sheet.getRange(2, 1).setValue("TAHUN PELAJARAN " + tapel.toUpperCase());
+    sheet.getRange(3, 1).setValue("BULAN : " + monthName.toUpperCase());
+    
+    sheet.getRange("A1:AM1").merge().setFontWeight("bold").setFontSize(14).setHorizontalAlignment("center");
+    sheet.getRange("A2:AM2").merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
+    sheet.getRange("A3:AM3").merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
+    
+    // Line biru tipis di bawah judul seperti pada desain
+    sheet.getRange("A3:AM3").setBorder(null, null, true, null, null, null, "#000000", SpreadsheetApp.BorderStyle.SOLID);
+
+    // ----------------------------------------------------
+    // 2. INFORMASI SEKOLAH & KELAS (Row 5 - 9)
+    // ----------------------------------------------------
+    sheet.getRange("B5").setValue("NAMA SEKOLAH").setFontWeight("bold");
+    sheet.getRange("D5").setValue(": SDN DUKUH MENANGGAL I/424");
+    
+    sheet.getRange("B6").setValue("KELAS").setFontWeight("bold");
+    sheet.getRange("D6").setValue(": " + className);
+    
+    sheet.getRange("B7").setValue("JUMLAH SISWA").setFontWeight("bold");
+    sheet.getRange("D7").setValue(": " + attendanceData.length);
+    
+    sheet.getRange("B9").setValue("KECAMATAN").setFontWeight("bold");
+    sheet.getRange("D9").setValue(": GAYUNGAN");
+    
+    // ----------------------------------------------------
+    // 3. HEADER TABEL PRESENSI (Row 11 - 12)
+    // ----------------------------------------------------
+    sheet.getRange("A11:A12").merge().setValue("NO");
+    sheet.getRange("B11:B12").merge().setValue("NAMA SISWA");
+    sheet.getRange("C11:C12").merge().setValue("NO. INDUK");
+    sheet.getRange("D11:D12").merge().setValue("NISN");
+    
+    sheet.getRange("E11:AI11").merge().setValue("TANGGAL");
+    for (var d = 1; d <= 31; d++) {
+      sheet.getRange(12, 4 + d).setValue(d);
+    }
+    
+    // Rekap Headers (AJ11:AM12)
+    sheet.getRange("AJ11:AM11").merge().setValue("REKAP");
+    sheet.getRange("AJ12").setValue("H");
+    sheet.getRange("AK12").setValue("S");
+    sheet.getRange("AL12").setValue("I");
+    sheet.getRange("AM12").setValue("A");
+    
+    // Format Header Tabel
+    var headerRange = sheet.getRange("A11:AM12");
+    headerRange.setFontWeight("bold")
+               .setHorizontalAlignment("center")
+               .setVerticalAlignment("middle")
+               .setBackground("#ffffff");
+    
+    // ----------------------------------------------------
+    // 4. DATA SISWA & PRESENSI (Row 13 ke bawah)
+    // ----------------------------------------------------
     var rows = [];
     for (var i = 0; i < attendanceData.length; i++) {
       var item = attendanceData[i];
-      var row = [i + 1, item.nama];
+      var rowIndex = 13 + i;
+      
+      var row = [
+        i + 1,
+        item.nama || "",
+        item.noInduk || "",
+        item.nisn || ""
+      ];
+      
       for (var day = 1; day <= 31; day++) {
         row.push(item.dates[day] || "");
       }
+      
+      // Formula Rekap Otomatis H, S, I, A
+      row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "•")');
+      row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "S")');
+      row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "I")');
+      row.push('=COUNTIF(E' + rowIndex + ':AI' + rowIndex + ', "A")');
+      
       rows.push(row);
     }
     
     if (rows.length > 0) {
-      sheet.getRange(2, 1, rows.length, rows[0].length).setValues(rows);
+      sheet.getRange(13, 1, rows.length, rows[0].length).setValues(rows);
+    }
+    
+    // ----------------------------------------------------
+    // 5. STYLING, BORDER, & FONT (Times New Roman)
+    // ----------------------------------------------------
+    var lastRow = 12 + (rows.length > 0 ? rows.length : 1);
+    var tableRange = sheet.getRange(11, 1, lastRow - 10, totalCols);
+    
+    // Apply Border Hitam
+    tableRange.setBorder(true, true, true, true, true, true, "#000000", SpreadsheetApp.BorderStyle.SOLID);
+    
+    // Set Font Family Seluruh Sheet
+    sheet.getRange(1, 1, lastRow + 2, totalCols).setFontFamily("Times New Roman");
+    
+    // Alignment Data
+    if (rows.length > 0) {
+      sheet.getRange(13, 1, rows.length, 1).setHorizontalAlignment("center"); // NO
+      sheet.getRange(13, 2, rows.length, 1).setHorizontalAlignment("left");   // NAMA SISWA
+      sheet.getRange(13, 3, rows.length, 2).setHorizontalAlignment("center"); // NO INDUK & NISN
+      sheet.getRange(13, 5, rows.length, 35).setHorizontalAlignment("center");// TANGGAL & REKAP
+    }
+    
+    // Ukuran Kolom Presisi
+    sheet.setColumnWidth(1, 35);  // NO
+    sheet.setColumnWidth(2, 210); // NAMA SISWA
+    sheet.setColumnWidth(3, 90);  // NO INDUK
+    sheet.setColumnWidth(4, 100); // NISN
+    for (var col = 5; col <= 35; col++) {
+      sheet.setColumnWidth(col, 28); // Tanggal 1-31
+    }
+    for (var col = 36; col <= 39; col++) {
+      sheet.setColumnWidth(col, 32); // Rekap H, S, I, A
     }
     
     return ContentService.createTextOutput(JSON.stringify({
       status: "success", 
-      message: "Data presensi bulan " + monthName + " berhasil disimpan!"
+      message: "Data presensi bulan " + monthName + " berhasil disimpan dengan format rapi!"
     })).setMimeType(ContentService.MimeType.JSON);
 
   } catch (err) {
@@ -552,16 +657,16 @@ function doGet(e) {
 
                 <div class="bg-amber-50 border border-amber-200/80 p-3.5 rounded-xl text-amber-900 leading-relaxed font-medium">
                     <strong class="font-bold flex items-center gap-1 mb-1 text-amber-950">
-                        <span>💡</span> Langkah Deploy Apps Script:
+                        <span>💡</span> Langkah Update / Deploy Apps Script:
                     </strong>
                     <ol class="list-decimal list-inside space-y-1">
                         <li>Buka Google Spreadsheet untuk kelas terkait.</li>
                         <li>Klik <strong>Extensions</strong> &gt; <strong>Apps Script</strong>.</li>
-                        <li>Hapus isi default, lalu tempel kode di atas. Simpan proyek.</li>
-                        <li>Klik <strong>Deploy</strong> &gt; <strong>New deployment</strong>.</li>
+                        <li>Hapus semua kode lama, lalu tempel kode baru di atas. Simpan proyek (ctrl+s).</li>
+                        <li>Klik <strong>Deploy</strong> &gt; <strong>New deployment</strong> (Atau Manage deployments &gt; Edit icon &gt; New version).</li>
                         <li>Pilih <i>Select type</i>: <strong>Web app</strong>.</li>
                         <li>Set <i>Execute as</i>: <strong>Me</strong>, dan <i>Who has access</i>: <strong>Anyone</strong>.</li>
-                        <li>Klik <strong>Deploy</strong>, lalu salin <strong>Web App URL</strong> dan tempel di Pengaturan Kelas pada aplikasi ini.</li>
+                        <li>Klik <strong>Deploy</strong>, lalu salin <strong>Web App URL</strong> dan simpan di Pengaturan Kelas aplikasi ini.</li>
                     </ol>
                 </div>
             </div>
@@ -665,7 +770,7 @@ function doGet(e) {
         const DEFAULT_APP_STATE = {
             tapel: "2026/2027",
             activeClassId: "cls-1a",
-            activeMonth: "Januari",
+            activeMonth: "November",
             activeDate: new Date().toISOString().split('T')[0],
             viewMode: "daily", // 'daily' (Mobile optimized) or 'matrix' (31 days)
             printConfig: {
@@ -679,30 +784,15 @@ function doGet(e) {
             classes: [
                 {
                     id: "cls-1a",
-                    name: "Kelas 1A",
+                    name: "V - C",
                     appscriptUrl: "",
                     students: [
-                        "Ahmad Fadhil",
-                        "Aisha Az-Zahra",
-                        "Bagus Prasetyo",
-                        "Citra Kirana",
-                        "Davin Al-Ghazali",
-                        "Eka Putri Pertiwi",
-                        "Farhan Maulana",
-                        "Gilang Ramadhan",
-                        "Hania Syakira",
-                        "Intan Nuraini"
-                    ]
-                },
-                {
-                    id: "cls-1b",
-                    name: "Kelas 1B",
-                    appscriptUrl: "",
-                    students: [
-                        "Joko Susilo",
-                        "Kurnia Dewi",
-                        "Lesti Andryani",
-                        "Muhammad Rizky"
+                        "ACHMAD HAFID",
+                        "ALFIO FERDINAND",
+                        "ALSYA PUTRI SALSABILA",
+                        "ALVIAN PUTRA EFENDI",
+                        "ALVINO KHALIF PRASETYA",
+                        "ARKA HAFIZH AL FATIH"
                     ]
                 }
             ],
@@ -889,7 +979,7 @@ function doGet(e) {
             }
 
             const selectedDay = new Date(appData.activeDate).getDate();
-            tableTitle.textContent = `Input Presensi Harian - ${currentClass.name}`;
+            tableTitle.textContent = `Input Presensi Harian - Kelas ${currentClass.name}`;
             tableSubtitle.textContent = `Tanggal: ${selectedDay} ${appData.activeMonth} ${appData.tapel}`;
             studentCountEl.textContent = currentClass.students.length;
 
@@ -972,7 +1062,7 @@ function doGet(e) {
 
             if (!currentClass) return;
 
-            tableTitle.textContent = `Daftar Presensi - ${currentClass.name}`;
+            tableTitle.textContent = `Daftar Presensi - Kelas ${currentClass.name}`;
             const selectedDay = new Date(appData.activeDate).getDate();
             tableSubtitle.textContent = `Tanggal Aktif: ${selectedDay} ${appData.activeMonth}`;
             studentCountEl.textContent = currentClass.students.length;
@@ -1042,7 +1132,6 @@ function doGet(e) {
             });
         }
 
-        // Adapted openStatusPicker with Mobile Screen Bounds Logic
         function openStatusPicker(event, studentName, day) {
             event.stopPropagation();
             currentPickerTarget = { studentName, day };
@@ -1131,6 +1220,8 @@ function doGet(e) {
 
                     const payload = {
                         month: monthName,
+                        tapel: appData.tapel || "2026/2027",
+                        className: currentClass.name || "",
                         data: payloadData
                     };
 
