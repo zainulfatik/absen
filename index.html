@@ -138,7 +138,6 @@
 
     <!-- Header App -->
     <header class="bg-gradient-to-r from-emerald-600 via-teal-600 to-cyan-600 text-white shadow-lg no-print relative overflow-hidden">
-        <!-- Cute decorative floating background circles -->
         <div class="absolute -top-6 -right-6 w-24 h-24 bg-white/10 rounded-full blur-xl pointer-events-none"></div>
         <div class="absolute -bottom-10 left-1/3 w-32 h-32 bg-yellow-300/10 rounded-full blur-2xl pointer-events-none"></div>
 
@@ -172,7 +171,6 @@
         
         <!-- Filter & Control Card -->
         <div class="glass-card rounded-2xl shadow-sm border border-emerald-100/80 p-4 sm:p-5 relative overflow-hidden">
-            <!-- Cute decorative accent bar -->
             <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-400 via-teal-400 to-amber-300"></div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
@@ -254,7 +252,6 @@
             
             <!-- View Mode Switcher & Status Badges -->
             <div class="flex flex-wrap items-center gap-2">
-                <!-- View Mode Toggle (Mobile Friendly) -->
                 <div class="bg-slate-200/80 p-1 rounded-2xl flex items-center shadow-inner text-xs font-bold w-full sm:w-auto">
                     <button id="btn-view-daily" onclick="setViewMode('daily')" class="flex-1 sm:flex-none px-3.5 py-1.5 rounded-xl transition flex items-center justify-center gap-1.5 bg-white text-emerald-800 shadow-xs">
                         <i class="fa-solid fa-mobile-screen-button text-emerald-600"></i> Mode Harian (HP)
@@ -312,7 +309,7 @@
                 </div>
             </div>
 
-            <!-- View Mode 1: Daily Mobile View (Card List) -->
+            <!-- View Mode 1: Daily Mobile View -->
             <div id="view-daily-container" class="p-3 sm:p-4 space-y-2.5 max-h-[600px] overflow-y-auto custom-scrollbar bg-slate-50/40">
                 <!-- Dynamic Mobile Daily Cards populated by JavaScript -->
             </div>
@@ -348,10 +345,43 @@
                 </button>
             </div>
             <div class="p-6 overflow-y-auto space-y-5 flex-1 custom-scrollbar">
-                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 text-xs text-emerald-900 font-medium flex items-start gap-2">
-                    <i class="fa-solid fa-circle-info text-emerald-600 mt-0.5"></i>
-                    <div>
-                        Setiap kelas terhubung ke Spreadsheet terpisah melalui link <strong>Google Apps Script Web App</strong> kelas masing-masing.
+                
+                <!-- Signature Data Settings Block -->
+                <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 space-y-3">
+                    <h4 class="font-extrabold text-xs text-slate-700 flex items-center gap-1.5 uppercase tracking-wider">
+                        <i class="fa-solid fa-pen-nib text-emerald-600"></i> Data Tanda Tangan (Spreadsheet & Cetak)
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tempat Dokumen</label>
+                            <input type="text" id="setting-tempat" placeholder="Surabaya" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Tanggal Dokumen (Opsional)</label>
+                            <input type="text" id="setting-tanggal-dokumen" placeholder="Misal: 30 November 2026" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Wali Kelas / Guru</label>
+                            <input type="text" id="setting-guru-nama" placeholder="ZAINUL FATIK, S.Pd." 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Wali Kelas</label>
+                            <input type="text" id="setting-guru-nip" placeholder="198906232023211007" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Kepala Sekolah</label>
+                            <input type="text" id="setting-ks-nama" placeholder="ENOK FITRIYAH, S.Pd.SD" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Kepala Sekolah</label>
+                            <input type="text" id="setting-ks-nip" placeholder="198407052014122001" 
+                                   class="w-full border border-slate-200 rounded-xl px-3 py-1.5 text-xs font-semibold focus:ring-1 focus:ring-emerald-500 focus:outline-none">
+                        </div>
                     </div>
                 </div>
 
@@ -421,24 +451,24 @@
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-600 mb-1">Tanggal Dokumen</label>
-                        <input type="text" id="print-tanggal-dokumen" placeholder="Contoh: 31 Januari 2026" 
+                        <input type="text" id="print-tanggal-dokumen" placeholder="Contoh: 30 November 2026" 
                                class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                     </div>
                 </div>
 
                 <div class="border-t border-slate-100 pt-3">
                     <h4 class="text-xs font-extrabold text-slate-700 mb-2 uppercase tracking-wide flex items-center gap-1.5">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Data Guru Kelas
+                        <span class="w-2 h-2 rounded-full bg-emerald-500"></span> Data Guru Kelas / Wali Kelas
                     </h4>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Guru Kelas</label>
-                            <input type="text" id="print-guru-nama" placeholder="Nama Guru, S.Pd." 
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Wali Kelas</label>
+                            <input type="text" id="print-guru-nama" placeholder="ZAINUL FATIK, S.Pd." 
                                    class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Guru</label>
-                            <input type="text" id="print-guru-nip" placeholder="19800101 200501 1 001" 
+                            <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Wali Kelas</label>
+                            <input type="text" id="print-guru-nip" placeholder="198906232023211007" 
                                    class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                         </div>
                     </div>
@@ -451,12 +481,12 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block text-[11px] font-bold text-slate-600 mb-1">Nama Kepala Sekolah</label>
-                            <input type="text" id="print-ks-nama" placeholder="Kepala Sekolah, M.Pd." 
+                            <input type="text" id="print-ks-nama" placeholder="ENOK FITRIYAH, S.Pd.SD" 
                                    class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-600 mb-1">NIP Kepala Sekolah</label>
-                            <input type="text" id="print-ks-nip" placeholder="19750202 199802 2 002" 
+                            <input type="text" id="print-ks-nip" placeholder="198407052014122001" 
                                    class="w-full border border-slate-200 rounded-xl px-3 py-2 text-sm font-semibold focus:ring-2 focus:ring-emerald-500/40 focus:outline-none">
                         </div>
                     </div>
@@ -499,8 +529,9 @@ function doPost(e) {
     var contents = JSON.parse(e.postData.contents);
     var monthName = contents.month || "NOVEMBER";
     var tapel = contents.tapel || "2026/2027";
-    var className = contents.className || "V - C";
+    var className = contents.className || "Kelas 1A";
     var attendanceData = contents.data || [];
+    var printConfig = contents.printConfig || {};
     
     var ss = SpreadsheetApp.getActiveSpreadsheet();
     var sheet = ss.getSheetByName(monthName);
@@ -528,7 +559,7 @@ function doPost(e) {
     sheet.getRange("A2:AM2").merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
     sheet.getRange("A3:AM3").merge().setFontWeight("bold").setFontSize(12).setHorizontalAlignment("center");
     
-    // Line biru tipis di bawah judul seperti pada desain
+    // Line hitam solid di bawah judul row 3
     sheet.getRange("A3:AM3").setBorder(null, null, true, null, null, null, "#000000", SpreadsheetApp.BorderStyle.SOLID);
 
     // ----------------------------------------------------
@@ -602,20 +633,17 @@ function doPost(e) {
     }
     
     if (rows.length > 0) {
-      sheet.getRange(13, 1, rows.length, rows[0].length).setValues(rows);
+      var dataRange = sheet.getRange(13, 1, rows.length, rows[0].length);
+      dataRange.setValues(rows);
+      // Format No Induk & NISN sebagai Text (@) agar digit tidak berubah
+      sheet.getRange(13, 3, rows.length, 2).setNumberFormat("@");
     }
     
-    // ----------------------------------------------------
-    // 5. STYLING, BORDER, & FONT (Times New Roman)
-    // ----------------------------------------------------
     var lastRow = 12 + (rows.length > 0 ? rows.length : 1);
     var tableRange = sheet.getRange(11, 1, lastRow - 10, totalCols);
     
     // Apply Border Hitam
     tableRange.setBorder(true, true, true, true, true, true, "#000000", SpreadsheetApp.BorderStyle.SOLID);
-    
-    // Set Font Family Seluruh Sheet
-    sheet.getRange(1, 1, lastRow + 2, totalCols).setFontFamily("Times New Roman");
     
     // Alignment Data
     if (rows.length > 0) {
@@ -624,6 +652,48 @@ function doPost(e) {
       sheet.getRange(13, 3, rows.length, 2).setHorizontalAlignment("center"); // NO INDUK & NISN
       sheet.getRange(13, 5, rows.length, 35).setHorizontalAlignment("center");// TANGGAL & REKAP
     }
+    
+    // ----------------------------------------------------
+    // 5. TANDA TANGAN / SIGNATURE (Sesuai Gambar 2)
+    // ----------------------------------------------------
+    var startSignRow = lastRow + 3;
+    var tempat = printConfig.tempat || "Surabaya";
+    var tglDok = printConfig.tanggalDokumen || ("30 " + monthName + " 2026");
+    var ksNama = printConfig.ksNama || "";
+    var ksNip = printConfig.ksNip || "";
+    var guruNama = printConfig.guruNama || "";
+    var guruNip = printConfig.guruNip || "";
+
+    // Kiri: Kepala Sekolah
+    sheet.getRange(startSignRow, 3, 1, 2).merge().setValue("Mengetahui,").setHorizontalAlignment("center");
+    sheet.getRange(startSignRow + 1, 3, 1, 2).merge().setValue("Kepala Sekolah").setHorizontalAlignment("center");
+    
+    sheet.getRange(startSignRow + 5, 3, 1, 2).merge()
+         .setValue(ksNama ? ksNama : "...................................")
+         .setFontWeight("bold").setHorizontalAlignment("center");
+         
+    sheet.getRange(startSignRow + 6, 3, 1, 2).merge()
+         .setValue("NIP. " + (ksNip ? ksNip : "..................."))
+         .setHorizontalAlignment("center");
+
+    // Kanan: Wali Kelas
+    var textTanggal = tempat + ", " + tglDok;
+    sheet.getRange(startSignRow, 26, 1, 5).merge().setValue(textTanggal).setHorizontalAlignment("center");
+    sheet.getRange(startSignRow + 1, 26, 1, 5).merge().setValue("WALI KELAS").setHorizontalAlignment("center");
+    
+    sheet.getRange(startSignRow + 5, 26, 1, 5).merge()
+         .setValue(guruNama ? guruNama : "...................................")
+         .setFontWeight("bold").setHorizontalAlignment("center");
+         
+    sheet.getRange(startSignRow + 6, 26, 1, 5).merge()
+         .setValue("NIP. " + (guruNip ? guruNip : "..................."))
+         .setHorizontalAlignment("center");
+
+    // ----------------------------------------------------
+    // 6. STYLING FONT & UKURAN KOLOM
+    // ----------------------------------------------------
+    // Set Font Family Seluruh Sheet
+    sheet.getRange(1, 1, startSignRow + 7, totalCols).setFontFamily("Times New Roman");
     
     // Ukuran Kolom Presisi
     sheet.setColumnWidth(1, 35);  // NO
@@ -723,7 +793,7 @@ function doGet(e) {
                 <p>NIP. <span id="print-sign-ks-nip">-------------------</span></p>
             </div>
             <div class="text-center">
-                <p><span id="print-sign-tempat">Surabaya</span>, <span id="print-sign-tgl">31 Januari 2026</span></p>
+                <p><span id="print-sign-tempat">Surabaya</span>, <span id="print-sign-tgl">30 November 2026</span></p>
                 <p class="font-semibold">Guru Kelas</p>
                 <div class="h-16"></div>
                 <p id="print-sign-guru-nama" class="font-bold underline">-------------------------</p>
@@ -738,7 +808,7 @@ function doGet(e) {
         <span id="toast-message">Pesan notifikasi</span>
     </div>
 
-    <!-- Quick Status Picker Popover (Cute floating popover) -->
+    <!-- Quick Status Picker Popover -->
     <div id="quick-status-picker" class="fixed z-50 hidden bg-white/95 rounded-2xl shadow-2xl border border-slate-200/90 p-2.5 text-xs transition-all duration-150 backdrop-blur-md">
         <div class="text-[11px] font-extrabold text-slate-500 mb-2 px-1 flex justify-between items-center border-b border-slate-100 pb-1.5">
             <span id="picker-title" class="truncate max-w-[180px]">Pilih Status Presensi</span>
@@ -772,27 +842,29 @@ function doGet(e) {
             activeClassId: "cls-1a",
             activeMonth: "November",
             activeDate: new Date().toISOString().split('T')[0],
-            viewMode: "daily", // 'daily' (Mobile optimized) or 'matrix' (31 days)
+            viewMode: "daily",
             printConfig: {
                 tempat: "Surabaya",
-                tanggalDokumen: "",
-                guruNama: "",
-                guruNip: "",
-                ksNama: "",
-                ksNip: ""
+                tanggalDokumen: "30 November 2026",
+                guruNama: "ZAINUL FATIK, S.Pd.",
+                guruNip: "198906232023211007",
+                ksNama: "ENOK FITRIYAH, S.Pd.SD",
+                ksNip: "198407052014122001"
             },
             classes: [
                 {
                     id: "cls-1a",
-                    name: "V - C",
+                    name: "Kelas 1A",
                     appscriptUrl: "",
                     students: [
-                        "ACHMAD HAFID",
-                        "ALFIO FERDINAND",
-                        "ALSYA PUTRI SALSABILA",
-                        "ALVIAN PUTRA EFENDI",
-                        "ALVINO KHALIF PRASETYA",
-                        "ARKA HAFIZH AL FATIH"
+                        "Ahmad Fadhil",
+                        "Aisha Az-Zahra",
+                        "Bagus Prasetyo",
+                        "Citra Kirana",
+                        "Davin Al-Ghazali",
+                        "Eka Putri Pertiwi",
+                        "Farhan Maulana",
+                        "Gilang Ramadhan"
                     ]
                 }
             ],
@@ -812,14 +884,12 @@ function doGet(e) {
             updateGasStatusBadge();
         };
 
-        // Helper: Save State to LocalStorage
         function saveAppState() {
             const tapelInput = document.getElementById("input-tapel");
             if (tapelInput) appData.tapel = tapelInput.value;
             localStorage.setItem("presensi_sdn_dukuh_menanggal", JSON.stringify(appData));
         }
 
-        // Helper: Get Active Class Object
         function getCurrentClass() {
             if (!appData.classes || appData.classes.length === 0) return null;
             let cls = appData.classes.find(c => c.id === appData.activeClassId);
@@ -830,7 +900,6 @@ function doGet(e) {
             return cls;
         }
 
-        // Helper: Render Class Select Dropdown
         function renderClassDropdown() {
             const select = document.getElementById("select-kelas");
             if (!select) return;
@@ -846,7 +915,6 @@ function doGet(e) {
             });
         }
 
-        // Helper: Sync Active Month Name from Selected Date
         function syncActiveMonthFromDate() {
             if (!appData.activeDate) return;
             const dateObj = new Date(appData.activeDate);
@@ -864,14 +932,12 @@ function doGet(e) {
             }
         }
 
-        // Helper: Close Status Picker Popover
         function closeStatusPicker() {
             const picker = document.getElementById("quick-status-picker");
             if (picker) picker.classList.add("hidden");
             currentPickerTarget = null;
         }
 
-        // Event listener to close popover when clicking outside
         document.addEventListener("click", function(e) {
             const picker = document.getElementById("quick-status-picker");
             if (picker && !picker.classList.contains("hidden")) {
@@ -894,6 +960,7 @@ function doGet(e) {
             }
 
             if (!appData.viewMode) appData.viewMode = "daily";
+            if (!appData.printConfig) appData.printConfig = DEFAULT_APP_STATE.printConfig;
 
             document.getElementById("input-tapel").value = appData.tapel || "2026/2027";
             document.getElementById("input-tanggal").value = appData.activeDate || new Date().toISOString().split('T')[0];
@@ -964,7 +1031,6 @@ function doGet(e) {
             }
         }
 
-        // Render Mode Harian (Khusus Layar HP/Ponsel)
         function renderDailyView() {
             const currentClass = getCurrentClass();
             const tableTitle = document.getElementById("table-title");
@@ -979,7 +1045,7 @@ function doGet(e) {
             }
 
             const selectedDay = new Date(appData.activeDate).getDate();
-            tableTitle.textContent = `Input Presensi Harian - Kelas ${currentClass.name}`;
+            tableTitle.textContent = `Input Presensi Harian - ${currentClass.name}`;
             tableSubtitle.textContent = `Tanggal: ${selectedDay} ${appData.activeMonth} ${appData.tapel}`;
             studentCountEl.textContent = currentClass.students.length;
 
@@ -988,7 +1054,6 @@ function doGet(e) {
                 return;
             }
 
-            // Ensure data structure exists
             if (!appData.attendance) appData.attendance = {};
             if (!appData.attendance[currentClass.id]) appData.attendance[currentClass.id] = {};
             if (!appData.attendance[currentClass.id][appData.activeMonth]) appData.attendance[currentClass.id][appData.activeMonth] = {};
@@ -1012,7 +1077,6 @@ function doGet(e) {
                         <span class="font-bold text-slate-800 text-xs sm:text-sm">${studentName}</span>
                     </div>
 
-                    <!-- Touch Friendly Status Selector Buttons -->
                     <div class="flex items-center gap-1.5 self-end sm:self-auto">
                         <button onclick="setDirectStatus('${escapedStudent}', ${selectedDay}, '•')" 
                                 class="cute-btn px-3 py-1.5 rounded-xl text-xs font-extrabold flex items-center gap-1 border ${status === '•' ? 'bg-emerald-500 text-white border-emerald-600 shadow-xs scale-105' : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-emerald-50'}">
@@ -1062,12 +1126,11 @@ function doGet(e) {
 
             if (!currentClass) return;
 
-            tableTitle.textContent = `Daftar Presensi - Kelas ${currentClass.name}`;
+            tableTitle.textContent = `Daftar Presensi - ${currentClass.name}`;
             const selectedDay = new Date(appData.activeDate).getDate();
             tableSubtitle.textContent = `Tanggal Aktif: ${selectedDay} ${appData.activeMonth}`;
             studentCountEl.textContent = currentClass.students.length;
 
-            // Header columns reset
             theadRow.innerHTML = `
                 <th class="py-3 px-2 border-b border-r border-slate-200/80 text-center sticky-col-no bg-slate-100">No</th>
                 <th class="py-3 px-2.5 border-b border-r border-slate-200/80 sticky-col-name bg-slate-100 shadow-xs">Nama Siswa</th>
@@ -1222,7 +1285,8 @@ function doGet(e) {
                         month: monthName,
                         tapel: appData.tapel || "2026/2027",
                         className: currentClass.name || "",
-                        data: payloadData
+                        data: payloadData,
+                        printConfig: appData.printConfig || {}
                     };
 
                     await fetch(currentClass.appscriptUrl, {
@@ -1287,6 +1351,16 @@ function doGet(e) {
         }
 
         function renderSettingsModalContent() {
+            // Populate Signature inputs in settings
+            if (appData.printConfig) {
+                document.getElementById("setting-tempat").value = appData.printConfig.tempat || "Surabaya";
+                document.getElementById("setting-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || "";
+                document.getElementById("setting-guru-nama").value = appData.printConfig.guruNama || "";
+                document.getElementById("setting-guru-nip").value = appData.printConfig.guruNip || "";
+                document.getElementById("setting-ks-nama").value = appData.printConfig.ksNama || "";
+                document.getElementById("setting-ks-nip").value = appData.printConfig.ksNip || "";
+            }
+
             const container = document.getElementById("class-settings-container");
             container.innerHTML = "";
 
@@ -1319,6 +1393,16 @@ function doGet(e) {
         }
 
         function saveSettings() {
+            // Save Signature Settings
+            appData.printConfig = {
+                tempat: document.getElementById("setting-tempat").value,
+                tanggalDokumen: document.getElementById("setting-tanggal-dokumen").value,
+                guruNama: document.getElementById("setting-guru-nama").value,
+                guruNip: document.getElementById("setting-guru-nip").value,
+                ksNama: document.getElementById("setting-ks-nama").value,
+                ksNip: document.getElementById("setting-ks-nip").value
+            };
+
             appData.classes.forEach(cls => {
                 const nameEl = document.getElementById(`setting-name-${cls.id}`);
                 const urlEl = document.getElementById(`setting-url-${cls.id}`);
@@ -1339,6 +1423,7 @@ function doGet(e) {
             renderAttendanceMatrix();
             closeModal('modal-settings');
             showToast("Pengaturan kelas berhasil disimpan!");
+            autoSyncToSpreadsheet();
         }
 
         function addNewClass() {
@@ -1366,7 +1451,6 @@ function doGet(e) {
 
             appData.activeClassId = newId;
 
-            // Clear inputs
             document.getElementById("new-class-name").value = "";
             document.getElementById("new-class-url").value = "";
             document.getElementById("new-class-students").value = "";
@@ -1399,7 +1483,7 @@ function doGet(e) {
         function openPrintModal() {
             if (appData.printConfig) {
                 document.getElementById("print-tempat").value = appData.printConfig.tempat || "Surabaya";
-                document.getElementById("print-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || `31 ${appData.activeMonth} 2026`;
+                document.getElementById("print-tanggal-dokumen").value = appData.printConfig.tanggalDokumen || `30 ${appData.activeMonth} 2026`;
                 document.getElementById("print-guru-nama").value = appData.printConfig.guruNama || "";
                 document.getElementById("print-guru-nip").value = appData.printConfig.guruNip || "";
                 document.getElementById("print-ks-nama").value = appData.printConfig.ksNama || "";
@@ -1412,7 +1496,6 @@ function doGet(e) {
             const currentClass = getCurrentClass();
             if (!currentClass) return;
 
-            // Save Print Config
             appData.printConfig = {
                 tempat: document.getElementById("print-tempat").value,
                 tanggalDokumen: document.getElementById("print-tanggal-dokumen").value,
@@ -1423,7 +1506,6 @@ function doGet(e) {
             };
             saveAppState();
 
-            // Populate Print Template Text
             document.getElementById("print-disp-tapel").textContent = appData.tapel;
             document.getElementById("print-disp-bulan").textContent = appData.activeMonth;
             document.getElementById("print-disp-kelas").textContent = currentClass.name;
@@ -1437,7 +1519,6 @@ function doGet(e) {
             document.getElementById("print-sign-ks-nama").textContent = appData.printConfig.ksNama || "...................................";
             document.getElementById("print-sign-ks-nip").textContent = appData.printConfig.ksNip || "...................";
 
-            // Build Print Table
             const printTbody = document.getElementById("print-table-body");
             printTbody.innerHTML = "";
 
@@ -1479,7 +1560,6 @@ function doGet(e) {
 
             closeModal('modal-print');
 
-            // Show Print view and trigger browser print dialog
             document.getElementById("print-area").classList.remove("hidden");
             setTimeout(() => {
                 window.print();
@@ -1487,7 +1567,6 @@ function doGet(e) {
             }, 300);
         }
 
-        // Helper Code Copying & Toast Notification
         function copyAppsScriptCode() {
             const codeText = document.getElementById("apps-script-code-block").innerText;
             const textarea = document.createElement("textarea");
